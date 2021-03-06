@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>
+            Template
+        </title>
+    </head>
+    <body>
+        <nav>
+            <a href = "{{ url_for('index') }}">Home</a>
+            <a href = "{{ url_for('about') }}">About</a>
+        </nav>
+        {% block content %}
+        {% endblock %}
+    </body>
+</html>
