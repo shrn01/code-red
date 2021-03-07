@@ -10,6 +10,28 @@
             <h3>Welcome to Code Red</h3>
             <p>Here is a list of movies curated by people like you</p>
         </div>
+        <div class = "container row pt-3 mx-auto">
+            {% for movie in movies %}
+            <div class = "col-sm-3">
+            <div class = "card pt-2 shadow m-1 mt-3 border-0">
+                <div class = "ratio ratio-1x1">
+                    {% if movie[3] %}
+                    <img class = "card-img-top" src = "{{url_for('static',filename = movie[3])}}" alt = "Card image">
+                    {% else %}
+                    <img class = "card-img-top" style="width: 100%;height: 30%;" src = "{{url_for('static',filename = 'images/image.jpg')}}" alt = "Card image">
+                    {% endif %}
+                </div>
+                
+                <div class = "card-body">
+                    <h5>{{movie[0]}}</h5>
+                    <p>{{movie[1]}}</p>
+                    <p>IMDB: {{movie[2]}}</p>
+                </div>
+            </div>    
+            </div>
+            
+            {% endfor %}
+        </div>
         {% endblock %}
     </body>
 </html>
