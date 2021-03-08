@@ -14,7 +14,9 @@ def contribute():
     if request.method == "GET":
         return render_template("contribute.html", post = False)
     elif request.method == "POST":
-        print(request.form)
+        d = dict(request.form)
+        print(d)
+        add_movie((d['movie'],d['year'],float(d['imdb']),d['link']))
         return render_template("contribute.html", post = True)
 
 @app.route('/about')
