@@ -39,7 +39,7 @@ def get_movie(conn,name):
     l = cur.execute("SELECT name, release_date, imdb, image FROM movies WHERE name = ?",(name,)).fetchall()
     return l
 
-def delete(name):
+def delete_entry(name):
     conn = get_db_connection()
     cur = conn.cursor()
     cur.execute('''

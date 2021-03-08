@@ -15,13 +15,23 @@ def contribute():
         return render_template("contribute.html", post = False)
     elif request.method == "POST":
         d = dict(request.form)
-        print(d)
         add_movie((d['movie'],d['year'],float(d['imdb']),d['link']))
         return render_template("contribute.html", post = True)
 
 @app.route('/about')
 def about():
     return render_template('about.html')
+
+@app.route('/admin',methods = ['GET','POST'])
+def admin():
+    if request.method == "GET":
+        return render_template("admin.html", post = False)
+    elif request.method == "POST":
+        d = dict(request.form)
+        if (d['password'] != 'CodeRed'):
+            return render_template("admin.html",post = False)
+        delete_entry((d['movie']))
+        return render_template("admin.html", post = True)
 
 @app.route('/debug')
 def debug():

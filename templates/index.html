@@ -4,12 +4,7 @@
         <title>Code Red</title>
     </head>
     <body>
-        <script>
-            $('img').on("error", function() 
-            {
-                $(this).attr('src', '/images/codered.jpg');
-            });
-        </script>
+        
         {% extends "template.html" %}
         {% block content %}
         <div class = "container text-center">
@@ -39,5 +34,11 @@
             {% endfor %}
         </div>
         {% endblock %}
+        <script>
+            $('img').on("error", function() 
+            {
+                $(this).attr('src', '/images/codered.jpg');
+            });
+        </script>
     </body>
 </html>
