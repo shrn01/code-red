@@ -1,0 +1,13 @@
+{
+    "sqltools.connections": [
+        {
+            "previewLimit": 50,
+            "server": "localhost",
+            "port": 5432,
+            "askForPassword": true,
+            "driver": "PostgreSQL",
+            "name": "db",
+            "connectString": "postgres://isvzurksftnfou:6b6b27121ef90f73e73763c0fbad39a040819d8cb537cc0d6efd6bf903322a20@ec2-52-203-27-62.compute-1.amazonaws.com:5432/ddi6nkqmogl3d"
+        }
+    ]
+}
