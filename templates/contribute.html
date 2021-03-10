@@ -17,7 +17,7 @@
             <p>Saved.</p>
         </div>
         {% endif %}
-            <form method = "POST">
+            <form method = "POST" enctype = 'multipart/form-data'>
                 <div class = "form-group">
                     <label for = "movie">Movie Name</label>
                     <input required class = "form-control" placeholder="Enter Movie Name" type = "text", name = "movie">
@@ -30,14 +30,24 @@
                     <label for = "imdb">IMDB Rating</label>
                     <input required class = "form-control" placeholder="Enter IMDB Rating" type = "text", name = "imdb">
                 </div>
+                <div class = "custom-file mb-4">
+                    <input class = "custom-file-input" accept=".jpg" type = "file", name = "image">
+                    <label for = "image" class = 'custom-file-label'>Upload movie poster (.jpg)</label>
+                </div>
                 <div class = "form-group">
-                    <label for = "link">Image link</label>
-                    <input required class = "form-control" placeholder="Enter a link to Image" type = "text", name = "link">
+                    <label for = "addedBy">Your Name? ( Might be nickname too )</label>
+                    <input required class = "form-control" placeholder="Enter your name" type = "text", name = "addedBy">
                 </div>
                 <div>
                     <input type = "submit" class = "btn btn-success", name = "Submit">
                 </div>
             </form>
+            <script>
+                $(".custom-file-input").on("change", function() {
+                  var fileName = $(this).val().split("\\").pop();
+                  $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+                });
+            </script>
             
         </div>
         {% endblock %}
