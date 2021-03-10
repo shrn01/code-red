@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request
-import sqlite3
+# import sqlite3
 from PIL import Image
 from io import BytesIO
 import base64
@@ -12,8 +12,7 @@ import config
 # Defining app
 app = Flask(__name__)
 
-
-# giving the database url to the app
+# SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL')
 app.config.from_object(os.environ['APP_SETTINGS'])
 
 
