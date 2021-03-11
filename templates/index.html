@@ -1,7 +1,11 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Code Red</title>
+        <title>
+                Code Red
+        </title>
+        <link rel="shortcut icon" href="{{ url_for('static', filename='images/favicon.svg') }}">  
+
     </head>
     <body>
         
@@ -22,11 +26,15 @@
                     <img class = "card-img-top" src = "{{url_for('static',filename = 'images/codered.jpg')}}" alt = "Card image">
                     {% endif %}
                 </div>
-                
-                <div class = "card-body">
-                    <p><strong>{{movie.movie}}</strong></p>
-                    <p>{{movie.year}}</p>
-                    <p><em>IMDB: {{movie.imdb}}</em></p>
+                <a href = '{{ url_for("movie", id = movie.id) }}' class = "stretched-link"></a>
+                <div class = "card-body pt-2">
+                    <p class = "m-0"><strong>{{movie.movie}}</strong></p>
+                    <p class = "m-0 mb-1 small">{{movie.genre}}</p>
+                    <div class = "row">
+                        <p class = "col m-0">{{movie.year}}</p>
+                        <p class = "float-right col m-0">IMDb: {{movie.imdb}}</p>
+                    </div>
+                    
                 </div>
             </div>    
             </div>
