@@ -9,6 +9,8 @@ import os
 from os import environ
 from config import *
 import config
+from random import random
+# import sys
 
 # Defining app
 app = Flask(__name__)
@@ -35,10 +37,23 @@ def index():
     return render_template("index.html",movies = movies)
 
 # get a random movie < broken right now >
-@app.route("/random")
-def random():
-    return "<p> You Should definitely watch The Lord of the Rings. </p>"
+# @app.route("/random")
+# def random():
+#     movie = get_random()
+#     return render_template("movie.html",movie = movie)
 
+@app.route("/movie/<id>")
+def movie(id):
+    movie = Movie.query.get(id)
+    movie.image = base64.b64encode(movie.image)
+    movie.image = movie.image.decode('utf-8')
+    return render_template("movie.html",movie = movie)
+
+# def get_random():
+#     movies = Movie.query.all()
+#     rowCount = len(movies)
+#     movie = movies[rowCount * random()]
+#     return movie
 
 # method for users to add a movie 
 @app.route("/contribute", methods = ['GET', 'POST'])
@@ -76,63 +91,56 @@ def admin():
         return render_template("admin.html", post = True)
 
 
-# # debug site
-# @app.route('/debug')
-# def debug():
-#     create_table()
-#     add_movie(("Wall-E","2008",8.4,to_blob('static/images/Wall-E.jpg')))
-#     add_movie(("Deadpool","2016",8,to_blob('static/images/Deadpool.jpg')))
-#     add_movie(("John Wick","2014",7.4,to_blob('static/images/John Wick.jpg')))
-#     add_movie(("Alita: Battle Angel","2019",7.3,to_blob('static/images/Alita Battle Angel.jpg')))
-#     add_movie(("The Dark Knight","2008",9,to_blob('static/images/The Dark Knight.jpg')))
-#     add_movie(("Iron Man","2008",7.9,to_blob('static/images/Iron Man.jpg')))
-#     add_movie(("Joker","2019",8.4,to_blob('static/images/Joker.jpg')))
-#     add_movie(("Parasite","2019",8.6,to_blob('static/images/Parasite.jpg')))
-#     s = str(get_all_movies())
-#     return s
-
 
 # convert a image to blob and return
-def to_blob(img):
-    with open(img,'rb') as file:
+def to_blob():
+    with open('D:/Desktop/spider.jpg','rb') as file:
         data = file.read()
     data = resize_image(data)
-    return data
+    return
 
 
 # to convert any image to our required aspect ratio
 def resize_image(img):
     img = Image.open(BytesIO(img))
-    img_ratio = img.size[0] / float(img.size[1])
-    ratio = 2.0/3.0 # Set image ratio here
+    img_ratio = img.size[0] / img.size[1]
+    # print(img.size[0],img.size[1])
+    ratio = 3.0/4.0 # Set image ratio here
+    # print(img_ratio,ratio)
     if ratio > img_ratio:
-        box = (0, (img.size[1] * (1 - ratio)) / 2, img.size[0], (img.size[1] * (1 + ratio)) / 2)
+        box = (0, (img.size[1] - img.size[0]/ratio) / 2, img.size[0], (img.size[1] + img.size[0]/ratio) / 2)
         img = img.crop(box)
+        # print("Crop 1")
     elif ratio < img_ratio:
-        box = ((img.size[0]  * (1 - ratio)) / 2, 0, (img.size[0] * (1 + ratio)) / 2, img.size[1])
+        box = ((img.size[0] - img.size[1] * ratio) / 2, 0, ((img.size[0] + img.size[1] * ratio)) / 2, img.size[1])
         img = img.crop(box)
+        # print("Crop 2")
+    # print(img.size[0],img.size[1])
     img = img.resize((450,600))
+    # img.show()
     imgBlob = BytesIO()
     img.save(imgBlob, format='jpeg')
     imgBlob = imgBlob.getvalue()
+    # print(sys.getsizeof(imgBlob))
     return imgBlob
 
 
 # Database model
 class Movie(db.Model):
     __tablename__ = "movies"
-    id = db.Column(db.Integer, primary_key = True)
-    movie = db.Column(db.String(250), unique = True)
-    year = db.Column(db.Integer)
-    imdb = db.Column(db.Float)
-    image = db.Column(db.LargeBinary)
-    genre = db.Column(db.String(250))
-    actors = db.Column(db.String(700))
-    likes = db.Column(db.Integer)
+    id      = db.Column(db.Integer, primary_key = True)
+    movie   = db.Column(db.String(450), unique = True)
+    year    = db.Column(db.Integer)
+    imdb    = db.Column(db.Float)
+    image   = db.Column(db.LargeBinary)
+    genre   = db.Column(db.String(250))
+    actors  = db.Column(db.String(700))
+    likes   = db.Column(db.Integer)
     dislikes = db.Column(db.Integer)
-    summary = db.Column(db.String(500))
+    summary = db.Column(db.String(700))
     addedBy = db.Column(db.String(120))
     movie_or_series = db.Column(db.String(100))
+    trailer = db.Column(db.String(700))
 
     def __init__(self, movie, image):
         self.movie = movie['movie']
@@ -140,11 +148,13 @@ class Movie(db.Model):
         self.imdb = float(movie['imdb'])
         self.image = image
         # self.actors = movie.actors
-        # self.likes = movie.likes
-        # self.dislikes = movie.dislikes
+        self.likes = 0
+        self.dislikes = 0
         # self.summary = movie.summary
         self.addedBy = movie['addedBy']
         # self.movie_or_series = db.Column(db.String(100))
+        self.genre = movie['genre']
+        self.trailer = movie['trailer']
 
     def __repr__(self):
         return self.movie + ' was released in ' + str(self.year) + ' imdb : ' + str(self.imdb)

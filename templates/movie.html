@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>
+                {{movie.movie}} | Code Red
+        </title>
+        <link rel="shortcut icon" href="{{ url_for('static', filename='images/favicon.svg') }}">  
+
+    </head>
+    <body>
+        {% extends "template.html" %}
+        {% block content %}
+        <div class = "container row p-auto mx-auto">
+            <div>
+            <div class = "container row">
+                <div class = "container mt-2 col">
+                    {% if movie.image %}
+                    <img class = "card-img-top" src = "data:image/jpg;charset = utf-8;base64,{{ movie.image }}" alt = "Card image">
+                    {% else %}
+                    <img class = "card-img-top" src = "{{url_for('static',filename = 'images/codered.jpg')}}" alt = "Card image">
+                    {% endif %}
+                </div>
+                
+                <div class = 'col pt-3'>
+                    <h2><strong>{{movie.movie}}</strong></h2>
+                    <p>Genre:       {{movie.genre}}</p>
+                    <p>IMDb:        {{movie.imdb}}</p>
+                    <p>Release year:{{movie.year}}</p>
+
+                    <p class = "float-right"><em>- {{movie.addedBy}}</em></p>
+                </div>
+            </div>    
+            </div>
+        </div>
+        {% endblock %}
+    </body>
+</html>

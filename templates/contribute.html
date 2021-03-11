@@ -2,16 +2,14 @@
 <html>
     <head>
         <title>
-            Contribute - Code Red
+                Contribute | Code Red
         </title>
+        <link rel="shortcut icon" href="{{ url_for('static', filename='images/favicon.svg') }}">  
     </head>
     <body>
         {% extends "template.html" %}
         {% block content %}
-        
-        
         <div class = "container" style="max-width: 400px;">
-        
         {% if post == True %}
         <div style = "background-color: lightgreen;" class = "container pt-3 pb-2 text-center mb-3 rounded">
             <p>Saved.</p>
@@ -27,8 +25,17 @@
                     <input required class = "form-control" placeholder="Enter Release year" type = "text", name = "year">
                 </div>
                 <div class = "form-group">
+                    <label for = "genre">Genre</label>
+                    <input required class = "form-control" placeholder="Enter genre" type = "text", name = "genre">
+                </div>
+                <div class = "form-group">
                     <label for = "imdb">IMDB Rating</label>
                     <input required class = "form-control" placeholder="Enter IMDB Rating" type = "text", name = "imdb">
+                </div>
+                
+                <div class = "form-group">
+                    <label for = "trailer">Trailer</label>
+                    <input required class = "form-control" placeholder="Link to movie trailer" type = "text", name = "trailer">
                 </div>
                 <div class = "custom-file mb-4">
                     <input class = "custom-file-input" accept=".jpg" type = "file", name = "image">
