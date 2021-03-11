@@ -2,5 +2,4 @@ venv/
 .env
 local_database.db
 movies.db
-static/images/
 __pycache__/
