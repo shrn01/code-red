@@ -11,6 +11,7 @@
         
         {% extends "template.html" %}
         {% block content %}
+        <div>
         <div class = "container text-center">
             <h3>Welcome to Code Red</h3>
             <p>Here is a list of movies curated by people like you</p>
@@ -40,6 +41,10 @@
             </div>
             
             {% endfor %}
+        </div>
+            <div class = "container text-center">
+                <a href = '{{ url_for("contribute") }}' class = "btn mt-3 mb-3 btn-success">Add a Movie</a>
+            </div>
         </div>
         {% endblock %}
         <script>

@@ -9,8 +9,9 @@ import os
 from os import environ
 from config import *
 import config
-from random import random
+from random import randint
 # import sys
+# import time
 
 # Defining app
 app = Flask(__name__)
@@ -27,9 +28,15 @@ db = SQLAlchemy(app)
 # Home page
 @app.route("/")
 def index():
+    # c = time.time()
     movies = Movie.query.all()
     # print(type(movies))
     # print(movies)
+    # a = time.time()
+    # print((a-c), ' s to get queries')
+    movies.sort()
+    # b = time.time()
+    # print((b-a)* 1000,' ms to sort')
     for i in range(len(movies)):
         movies[i].image = base64.b64encode(movies[i].image)
         movies[i].image = movies[i].image.decode('utf-8')
@@ -37,10 +44,15 @@ def index():
     return render_template("index.html",movies = movies)
 
 # get a random movie < broken right now >
-# @app.route("/random")
-# def random():
-#     movie = get_random()
-#     return render_template("movie.html",movie = movie)
+@app.route("/random")
+def random():
+    movies = Movie.query.all()
+    length = len(movies)
+    i = randint(0,length)
+    movie = movies[i]
+    movie.image = base64.b64encode(movie.image)
+    movie.image = movie.image.decode('utf-8')
+    return render_template("movie.html",movie = movie)
 
 @app.route("/movie/<id>")
 def movie(id):
@@ -49,11 +61,6 @@ def movie(id):
     movie.image = movie.image.decode('utf-8')
     return render_template("movie.html",movie = movie)
 
-# def get_random():
-#     movies = Movie.query.all()
-#     rowCount = len(movies)
-#     movie = movies[rowCount * random()]
-#     return movie
 
 # method for users to add a movie 
 @app.route("/contribute", methods = ['GET', 'POST'])
@@ -158,8 +165,9 @@ class Movie(db.Model):
 
     def __repr__(self):
         return self.movie + ' was released in ' + str(self.year) + ' imdb : ' + str(self.imdb)
-
-
+    
+    def __lt__(self,other):
+        return self.movie < other.movie
 
 def create_db():
     db.create_all()
