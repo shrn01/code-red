@@ -20,7 +20,7 @@
                     </div>
                     <div class = 'd-none d-md-flex btn-group float-right'>
                         <div class = 'btn btn-secondary'><a href = "{{ url_for('index') }}" class = 'text-white'>Home</a></div>
-                        <div class = 'btn btn-secondary'><a href = "#" class = 'text-white'>Random movie</a></div>
+                        <div class = 'btn btn-secondary'><a href = "{{ url_for('random') }}" class = 'text-white'>Random movie</a></div>
                         <div class = 'btn btn-secondary'><a href = "{{url_for('contribute') }}" class = 'text-white'>Contribute</a></div>
                         <div class = 'btn btn-secondary'><a href = "{{ url_for('about') }}" class = 'text-white'>About</a></div>
                     </div>
@@ -30,7 +30,7 @@
                         </button>
                         <ul class = 'dropdown-menu dropdown-menu-right shadow border-0' role = 'menu'>
                             <li><a href = "{{ url_for('index') }}" class = 'text-center dropdown-item' role="menuitem">Home</a></li>
-                            <li><a href = "#" class = 'text-center dropdown-item' role="menuitem">Random movie</a></li>
+                            <li><a href = "{{ url_for('random') }}" class = 'text-center dropdown-item' role="menuitem">Random movie</a></li>
                             <li><a href = "{{url_for('contribute') }}" class = 'text-center dropdown-item' role="menuitem">Contribute</a></li>
                             <li><a href = "{{ url_for('about') }}" class = 'text-center dropdown-item' role="menuitem">About</a></li>
                         </ul>

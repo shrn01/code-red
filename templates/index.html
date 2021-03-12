@@ -11,9 +11,25 @@
         
         {% extends "template.html" %}
         {% block content %}
+        <div>
         <div class = "container text-center">
             <h3>Welcome to Code Red</h3>
             <p>Here is a list of movies curated by people like you</p>
+            <div class = 'btn-group'>
+                {% if option == None or option == 'all' %}
+                <a href = '/?op=all' class = "btn btn-default" style = "background-color: #DEF">All</a>
+                <a href = '/?op=movies' class = "btn btn-default">Movies</a>
+                <a href = '/?op=series' class = "btn btn-default">Series</a>
+                {% elif option == 'movies' %}
+                <a href = '/?op=all' class = "btn btn-default">All</a>
+                <a href = '/?op=movies' class = "btn btn-default" style = "background-color: #DEF">Movies</a>
+                <a href = '/?op=series' class = "btn btn-default">Series</a>
+                {% else %}
+                <a href = '/?op=all' class = "btn btn-default">All</a>
+                <a href = '/?op=movies' class = "btn btn-default">Movies</a>
+                <a href = '/?op=series' class = "btn btn-default" style = "background-color: #DEF">Series</a>
+                {% endif %}
+            </div>
         </div>
         <div class = "container row pt-3 mx-auto">
             {% for movie in movies %}
@@ -40,6 +56,10 @@
             </div>
             
             {% endfor %}
+        </div>
+            <div class = "container text-center">
+                <a href = '{{ url_for("contribute") }}' class = "btn mt-3 mb-3 btn-success">Add a Movie/Series</a>
+            </div>
         </div>
         {% endblock %}
         <script>

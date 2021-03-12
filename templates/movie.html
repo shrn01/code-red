@@ -10,18 +10,19 @@
     <body>
         {% extends "template.html" %}
         {% block content %}
-        <div class = "container row p-auto mx-auto">
+        <div class = "container row p-0 mx-auto">
             <div>
-            <div class = "container row">
-                <div class = "container mt-2 col">
+            <div class = "container row m-0">
+                <div class = " card p-3 pb-0 container shadow rounded mt-2 col-sm-4">
                     {% if movie.image %}
                     <img class = "card-img-top" src = "data:image/jpg;charset = utf-8;base64,{{ movie.image }}" alt = "Card image">
                     {% else %}
                     <img class = "card-img-top" src = "{{url_for('static',filename = 'images/codered.jpg')}}" alt = "Card image">
                     {% endif %}
+                    <a href = "{{movie.trailer}}" style = "font-family: monospace;" class = "text-dark mt-1 text-center stretched-link">Click for Trailer</a>
                 </div>
                 
-                <div class = 'col pt-3'>
+                <div class = 'container-fluid col-sm-8 pt-3'>
                     <h2><strong>{{movie.movie}}</strong></h2>
                     <p>Genre:       {{movie.genre}}</p>
                     <p>IMDb:        {{movie.imdb}}</p>

@@ -16,6 +16,17 @@
         </div>
         {% endif %}
             <form method = "POST" enctype = 'multipart/form-data'>
+                <div class="btn-group btn-group-toggle m-3" data-toggle="buttons">
+                    <label class="btn btn-outline-primary active">
+                      <input type="radio" name="movie_or_series" id="movie" value = "movie" autocomplete="off" checked>Movie
+                    </label>
+                    <label class="btn btn-outline-primary">
+                      <input type="radio" name="movie_or_series" id="film series" value = "film series" autocomplete="off">Film series
+                    </label>
+                    <label class="btn btn-outline-primary">
+                      <input type="radio" name="movie_or_series" id="series" value = "series" autocomplete="off">TV series
+                    </label>
+                </div>
                 <div class = "form-group">
                     <label for = "movie">Movie Name</label>
                     <input required class = "form-control" placeholder="Enter Movie Name" type = "text", name = "movie">
