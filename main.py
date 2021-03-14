@@ -37,7 +37,7 @@ def index():
         movies = Movie.query.all()
         # print(type(movies[0].movie_or_series))
     elif option == 'movies':
-        movies = Movie.query.filter_by(movie_or_series = 'movie').all()
+        movies = Movie.query.filter(Movie.movie_or_series != 'series').all()
     else:
         movies = Movie.query.filter_by(movie_or_series = 'series').all()
     
