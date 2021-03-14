@@ -24,8 +24,30 @@
                 
                 <div class = 'container-fluid col-sm-8 pt-3'>
                     <h2><strong>{{movie.movie}}</strong></h2>
-                    <p>Genre:       {{movie.genre}}</p>
-                    <p>IMDb:        {{movie.imdb}}</p>
+                    {% if (movie.movie_or_series == "film series") %}
+
+                    <div class = "mb-3">
+                        <span class = "badge badge-pill badge-success">Film series</span>
+                    </div>
+
+                    {% elif (movie.movie_or_series == "series") %}
+
+                        <div class = "mb-3">
+                            <span class = "badge badge-pill badge-info">TV series</span>
+                    </div>
+                    {% endif %}
+                        
+                    <p>Genre: {{movie.genre}}</p>
+                    {% if (movie.movie_or_series == "film series") %}
+                    <p>Since {{movie.year}}</p>
+                    <p">{{movie.imdb|int}} movies</p>
+                    {% elif (movie.movie_or_series == "series") %}
+                    <p>Since {{movie.year}}</p>
+                    <p">{{movie.imdb|int}} seasons</p>
+                    {% else %}
+                    <p>{{movie.year}}</p>
+                    <p">IMDb: {{movie.imdb}}</p>
+                    {% endif %}
                     <p>Release year:{{movie.year}}</p>
 
                     <p class = "float-right"><em>- {{movie.addedBy}}</em></p>

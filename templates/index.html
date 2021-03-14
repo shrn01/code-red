@@ -17,17 +17,17 @@
             <p>Here is a list of movies curated by people like you</p>
             <div class = 'btn-group'>
                 {% if option == None or option == 'all' %}
-                <a href = '/?op=all' class = "btn btn-default" style = "background-color: #DEF">All</a>
+                <a href = '/?op=all' class = "btn btn-default" style = "background-color: #DEF">All <span class="badge badge-light">{{movies | length}}</span></a>
                 <a href = '/?op=movies' class = "btn btn-default">Movies</a>
                 <a href = '/?op=series' class = "btn btn-default">Series</a>
                 {% elif option == 'movies' %}
                 <a href = '/?op=all' class = "btn btn-default">All</a>
-                <a href = '/?op=movies' class = "btn btn-default" style = "background-color: #DEF">Movies</a>
+                <a href = '/?op=movies' class = "btn btn-default" style = "background-color: #DEF">Movies <span class="badge badge-light">{{movies | length}}</span></a>
                 <a href = '/?op=series' class = "btn btn-default">Series</a>
                 {% else %}
                 <a href = '/?op=all' class = "btn btn-default">All</a>
                 <a href = '/?op=movies' class = "btn btn-default">Movies</a>
-                <a href = '/?op=series' class = "btn btn-default" style = "background-color: #DEF">Series</a>
+                <a href = '/?op=series' class = "btn btn-default" style = "background-color: #DEF">Series <span class="badge badge-light">{{movies | length}}</span></a>
                 {% endif %}
             </div>
         </div>
