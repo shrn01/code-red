@@ -79,10 +79,10 @@ def contribute():
     elif request.method == "POST":
         image = resize_image(request.files.get('image').read())
         d = dict(request.form)
-        print(d)
-        # movie = Movie(d,image)
-        # db.session.add(movie)
-        # db.session.commit()
+        # print(d)
+        movie = Movie(d,image)
+        db.session.add(movie)
+        db.session.commit()
         return render_template("contribute.html", post = True)
 
 
@@ -172,7 +172,7 @@ class Movie(db.Model):
         self.dislikes = 0
         # self.summary = movie.summary
         self.addedBy = movie['addedBy']
-        # self.movie_or_series = db.Column(db.String(100))
+        self.movie_or_series = db.Column(db.String(100))
         self.genre = movie['genre']
         self.trailer = movie['trailer']
 

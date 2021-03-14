@@ -18,34 +18,34 @@
             <form method = "POST" enctype = 'multipart/form-data'>
                 <div class="btn-group btn-group-toggle m-3" data-toggle="buttons">
                     <label class="btn btn-outline-primary active">
-                      <input type="radio" name="movie_or_series" id="movie" value = "movie" autocomplete="off" checked>Movie
+                        <input type="radio" name="movie_or_series" id="movie" value = "movie" onclick = "movie_fn()" checked>Single Movie
                     </label>
                     <label class="btn btn-outline-primary">
-                      <input type="radio" name="movie_or_series" id="film series" value = "film series" autocomplete="off">Film series
+                        <input type="radio" name="movie_or_series" id="film series" value = "film series" onclick = "film_series()">Film series
                     </label>
                     <label class="btn btn-outline-primary">
-                      <input type="radio" name="movie_or_series" id="series" value = "series" autocomplete="off">TV series
+                        <input type="radio" name="movie_or_series" id="series" value = "series" onclick = "series_fn()">TV series
                     </label>
                 </div>
-                <div class = "form-group">
-                    <label for = "movie">Movie Name</label>
+                <div class = "form-group" id = "movie_box">
+                    <label id = "movie_label" for = "movie">Movie Name</label>
                     <input required class = "form-control" placeholder="Enter Movie Name" type = "text", name = "movie">
                 </div>
-                <div class = "form-group">
-                    <label for = "year">Year</label>
+                <div class = "form-group" id = "year_box">
+                    <label id = "year_label" for = "year">Year</label>
                     <input required class = "form-control" placeholder="Enter Release year" type = "text", name = "year">
                 </div>
                 <div class = "form-group">
                     <label for = "genre">Genre</label>
                     <input required class = "form-control" placeholder="Enter genre" type = "text", name = "genre">
                 </div>
-                <div class = "form-group">
-                    <label for = "imdb">IMDB Rating</label>
+                <div class = "form-group" id = "imdb_box">
+                    <label id = "imdb_label" for = "imdb">IMDb Rating</label>
                     <input required class = "form-control" placeholder="Enter IMDB Rating" type = "text", name = "imdb">
                 </div>
                 
                 <div class = "form-group">
-                    <label for = "trailer">Trailer</label>
+                    <label id = "trailer_label" for = "trailer">Trailer</label>
                     <input required class = "form-control" placeholder="Link to movie trailer" type = "text", name = "trailer">
                 </div>
                 <div class = "custom-file mb-4">
@@ -60,12 +60,43 @@
                     <input type = "submit" class = "btn btn-success", name = "Submit">
                 </div>
             </form>
-            <script>
-                $(".custom-file-input").on("change", function() {
-                  var fileName = $(this).val().split("\\").pop();
-                  $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
-                });
-            </script>
+            <script language="Javascript">
+                function movie_fn()
+                {
+                    document.getElementsByName("movie")[0].placeholder = "Enter Movie Name";
+                    document.getElementsByName("year")[0].placeholder = "Enter Release year";
+                    document.getElementsByName("imdb")[0].placeholder = "Enter IMDB Rating";
+                    document.getElementsByName("trailer")[0].placeholder = "Link to movie trailer";
+                    document.getElementById("imdb_label").innerHTML = "IMDb Rating";
+                    document.getElementById("year_label").innerHTML = "Year";
+                    document.getElementById("movie_label").innerHTML = "Movie Name";
+
+                }
+                
+                function film_series()
+                {
+                    document.getElementsByName("movie")[0].placeholder = "Enter Name {eg. Harry Potter}";
+                    document.getElementsByName("year")[0].placeholder = "Enter release year of the first movie";
+                    document.getElementsByName("imdb")[0].placeholder = "Enter number of Movies in the series";
+                    document.getElementsByName("trailer")[0].placeholder = "Link to movie trailer";
+                    document.getElementById("imdb_label").innerHTML = "Number of Movies in the series";
+                    document.getElementById("year_label").innerHTML = "Year";
+                    document.getElementById("movie_label").innerHTML = "Film Series name";
+                
+                }
+
+                function series_fn()
+                {
+                    document.getElementsByName("movie")[0].placeholder = "Enter TV Series Name";
+                    document.getElementsByName("year")[0].placeholder = "Enter Release year";
+                    document.getElementsByName("imdb")[0].placeholder = "Enter number of seasons";
+                    document.getElementsByName("trailer")[0].placeholder = "Link to series trailer/video clip";
+                    document.getElementById("imdb_label").innerHTML = "Number of Seasons";
+                    document.getElementById("year_label").innerHTML = "Release Year of first season";
+                    document.getElementById("movie_label").innerHTML = "TV series Name";
+                
+                }
+                </script>
             
         </div>
         {% endblock %}
