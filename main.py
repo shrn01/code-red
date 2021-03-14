@@ -29,12 +29,13 @@ db = SQLAlchemy(app)
 @app.route("/")
 def index():
     option = request.args.get('op')
-    db.session.query(Movie).update({Movie.movie_or_series : "movie"})
+    # db.session.query(Movie).filter(Movie.movie == "Harry Potter").update({Movie.movie_or_series : "film series"})
+    db.session.commit()
     # print(type(option))
     # c = time.time()
     if option == 'all' or option == None:
         movies = Movie.query.all()
-        print(type(movies[0].movie_or_series))
+        # print(type(movies[0].movie_or_series))
     elif option == 'movies':
         movies = Movie.query.filter_by(movie_or_series = 'movie').all()
     else:
@@ -47,6 +48,7 @@ def index():
     # b = time.time()
     # print((b-a)* 1000,' ms to sort')
     for i in range(len(movies)):
+        # print(movies[i])
         movies[i].image = base64.b64encode(movies[i].image)
         movies[i].image = movies[i].image.decode('utf-8')
         # print(movies[i].image)
@@ -66,6 +68,7 @@ def random():
 @app.route("/movie/<id>")
 def movie(id):
     movie = Movie.query.get(id)
+    # print(movie.movie_or_series)
     movie.image = base64.b64encode(movie.image)
     movie.image = movie.image.decode('utf-8')
     return render_template("movie.html",movie = movie)
@@ -172,12 +175,12 @@ class Movie(db.Model):
         self.dislikes = 0
         # self.summary = movie.summary
         self.addedBy = movie['addedBy']
-        self.movie_or_series = db.Column(db.String(100))
+        self.movie_or_series = movie['movie_or_series']
         self.genre = movie['genre']
         self.trailer = movie['trailer']
 
     def __repr__(self):
-        return self.movie + ' was released in ' + str(self.year) + ' imdb : ' + str(self.imdb)
+        return self.movie + ' was released in ' + str(self.year) + ' imdb : ' + str(self.imdb) + " is a " + self.movie_or_series
     
     def __lt__(self,other):
         return self.movie < other.movie
