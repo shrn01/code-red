@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>
+                Admin | Code Red
+        </title>
+        <link rel="shortcut icon" href="{{ url_for('static', filename='images/favicon.svg') }}">  
+    </head>
+    <body>
+        {% extends "template.html" %}
+        {% block content %}
+        <div class = "container mt-2">
+        <h2>Our Proud Contributors</h2>
+        <ul>
+            {% for name in names %}
+            <li>{{name}}</li>
+            {% endfor %}
+        </ul>
+        </div>
+        {% endblock %}
+    </body>
+</html>

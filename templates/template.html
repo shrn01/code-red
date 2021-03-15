@@ -3,7 +3,8 @@
     <head>
         <link rel="shortcut icon" href="{{ url_for('static', filename='images/favicon.svg') }}">  
     </head>
-    <body>
+    <body class = "site">
+        
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -12,7 +13,7 @@
         <!-- 
             <link rel = "stylesheet" href = "{{ url_for('static',filename = 'css/bootstrap.min.css')}}"> 
         -->
-        <div>
+        <div class = "site-content">
             <div class = "container-fluid bg-dark text-white">
                 <nav class = "navbar">
                     <div class = 'text-white'>
@@ -22,7 +23,6 @@
                         <div class = 'btn btn-secondary'><a href = "{{ url_for('index') }}" class = 'text-white'>Home</a></div>
                         <div class = 'btn btn-secondary'><a href = "{{ url_for('random') }}" class = 'text-white'>Random movie</a></div>
                         <div class = 'btn btn-secondary'><a href = "{{url_for('contribute') }}" class = 'text-white'>Contribute</a></div>
-                        <div class = 'btn btn-secondary'><a href = "{{ url_for('about') }}" class = 'text-white'>About</a></div>
                     </div>
                     <div class = 'd-md-none btn-group float-right'>
                         <button type="button" class="btn btn-secondary dropdown-toggle shadow-none" data-toggle="dropdown">Menu
@@ -32,7 +32,6 @@
                             <li><a href = "{{ url_for('index') }}" class = 'text-center dropdown-item' role="menuitem">Home</a></li>
                             <li><a href = "{{ url_for('random') }}" class = 'text-center dropdown-item' role="menuitem">Random movie</a></li>
                             <li><a href = "{{url_for('contribute') }}" class = 'text-center dropdown-item' role="menuitem">Contribute</a></li>
-                            <li><a href = "{{ url_for('about') }}" class = 'text-center dropdown-item' role="menuitem">About</a></li>
                         </ul>
                     </div>
                 </nav>
@@ -43,5 +42,65 @@
             </div>
         </div>
         
-    </body>
+    
+    <style>
+        .site {
+        display: flex;
+        min-height: 100vh;
+        flex-direction: column;
+      }
+      
+      .site-content {
+        flex: 1;
+      }
+    </style>
+    <footer style = "background-color:#1c1c20" class = "text-white p-1 pl-3 pr-3 mt-4">
+        <div class = "row p-3 justify-content-center">
+            <div class = "col-md-6 container pl-5 pr-5 pt-4 pl-md-5">
+                <h3>
+                    About Code Red
+                </h3>
+                <p class = "ml-2 mr-2 mt-3">
+                    Made with Flask and Postgres by <a href = "https://github.com/shrn01">me</a>, <a href = "https://github.com/fivmin">this</a> guy and <a href = "http://linkedin.com/in/dowluri-satya-ashok-7a5016161/">that</a> guy.
+                </p>
+                <p class = "ml-2 mr-2">
+                    All the <a href = "{{ url_for('contributors') }}">Contributors</a> were kind enough to add all the movies and series they loved watching. Lots of ❤. If you want to add any movie or series you like which is not in the list, smash that contribute button up there. Cheers!
+                </p>
+            </div>
+            <div class = "col-md-4 container pr-5 pl-5 pt-4">
+                <h3>
+                    Quick Links
+                </h3>
+                <p class = "footer-links">
+                    <ul class="list-unstyled pl-2">
+                        <li>
+                            <a class="text-white" href = "{{ url_for('index') }}">Home</a>
+                            
+                        </li>
+                        <li>
+                            <a class="text-white" href = "{{ url_for('random') }}">Random Suggestion</a>
+                            
+                        </li>
+                        <li>
+                            <a class="text-white" href = "{{ url_for('contribute') }}">Add a Movie/series</a>
+                            
+                        </li>
+                        <li>
+                            <a class="text-white" href = "{{ url_for('contributors') }}">Contributors</a>
+                            
+                        </li>
+                        <li>
+                            <a class="text-white" href = "https://github.com/shrn01/code-red">Github</a>
+                        </li>
+                      </ul>
+                    
+                </p>
+                
+            </div>
+            <div class = "col-md-3 container p-3">
+            </div>
+            
+        </div>
+    </footer>
+</body>
 </html>

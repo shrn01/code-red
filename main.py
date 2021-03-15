@@ -90,9 +90,13 @@ def contribute():
 
 
 # About page
-@app.route('/about')
-def about():
-    return render_template('about.html')
+@app.route('/contributors')
+def contributors():
+    l = list(db.session.query(Movie.addedBy).distinct())
+    names = []
+    for i in l:
+        names.append(i[0])
+    return render_template('contributors.html',names = names)
 
 
 # admin page to delete any wrong info
