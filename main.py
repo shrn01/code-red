@@ -35,17 +35,17 @@ def index():
     # c = time.time()
     if option == 'all' or option == None:
         movies = Movie.query.all()
-        movies.sort()
+        movies.sort(key = lambda x : x.movie)
         # print(type(movies[0].movie_or_series))
     elif option == "new":
         movies = Movie.query.all()
-        movies.sort(key = movies.id, reverse = True)
+        movies.sort(key = lambda x : x.id, reverse = True)
     elif option == 'movies':
         movies = Movie.query.filter(Movie.movie_or_series != 'series').all()
-        movies.sort()
+        movies.sort(key = lambda x : x.movie)
     else:
         movies = Movie.query.filter_by(movie_or_series = 'series').all()
-        movies.sort()
+        movies.sort(key = lambda x : x.movie)
     
     # print(movies)
     # a = time.time()
@@ -191,8 +191,8 @@ class Movie(db.Model):
     def __repr__(self):
         return self.movie + ' was released in ' + str(self.year) + ' imdb : ' + str(self.imdb) + " is a " + self.movie_or_series
     
-    def __lt__(self,other):
-        return self.movie < other.movie
+    # def __lt__(self,other):
+    #     return self.movie < other.movie
 
 def create_db():
     db.create_all()
