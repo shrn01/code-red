@@ -39,7 +39,7 @@ def index():
         # print(type(movies[0].movie_or_series))
     elif option == "new":
         movies = Movie.query.all()
-        movies = movies[::-1]
+        movies.sort(key = movies.id, reverse = True)
     elif option == 'movies':
         movies = Movie.query.filter(Movie.movie_or_series != 'series').all()
         movies.sort()
