@@ -35,16 +35,21 @@ def index():
     # c = time.time()
     if option == 'all' or option == None:
         movies = Movie.query.all()
+        movies.sort()
         # print(type(movies[0].movie_or_series))
+    elif option == "new":
+        movies = Movie.query.all()
+        movies = movies[::-1]
     elif option == 'movies':
         movies = Movie.query.filter(Movie.movie_or_series != 'series').all()
+        movies.sort()
     else:
         movies = Movie.query.filter_by(movie_or_series = 'series').all()
+        movies.sort()
     
     # print(movies)
     # a = time.time()
     # print((a-c), ' s to get queries')
-    movies.sort()
     # b = time.time()
     # print((b-a)* 1000,' ms to sort')
     for i in range(len(movies)):
