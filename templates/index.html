@@ -42,7 +42,7 @@
                     <img class = "card-img-top" src = "{{url_for('static',filename = 'images/codered.jpg')}}" alt = "Card image">
                     {% endif %}
                 </div>
-                <a href = '{{ url_for("movie", id = movie.id) }}' class = "stretched-link"></a>
+                <a href = '{{ url_for("movie", id = movie.id) }}' target = "_blank" class = "stretched-link"></a>
                 <div class = "card-body pt-2">
                     <p class = "m-0"><strong>{{movie.movie}}</strong></p>
                     {% if (movie.movie_or_series == "film series") %}
