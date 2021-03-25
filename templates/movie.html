@@ -13,7 +13,7 @@
         <div class = "container row p-0 mx-auto">
             <div>
             <div class = "container row m-0">
-                <div class = " card p-3 pb-0 container shadow rounded mt-2 col-sm-4">
+                <div class = " card p-3 pb-0 container shadow border-0 rounded mt-2 col-sm-4">
                     {% if movie.image %}
                     <img class = "card-img-top" src = "data:image/jpg;charset = utf-8;base64,{{ movie.image }}" alt = "Card image">
                     {% else %}
@@ -49,8 +49,12 @@
                     <p">IMDb: {{movie.imdb}}</p>
                     {% endif %}
                     <p>Release year:{{movie.year}}</p>
-
-                    <p class = "float-right"><em>- {{movie.addedBy}}</em></p>
+                    <div class =  "container-fluid">
+                        <p class = "float-right">
+                            <em>- {{movie.addedBy}}</em>
+                        </p>
+                    </div>
+                    <a class = "btn btn-success text-center mt-5" href = "https://www.google.com/search?q={{movie.movie}}">Click for More Info</a>
                 </div>
             </div>    
             </div>
