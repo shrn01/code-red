@@ -15,24 +15,40 @@
         <div class = "container text-center">
             <h3>Welcome to Code Red</h3>
             <p>Here is a list of movies curated by people like you</p>
-            <div class = 'btn-group'>
                 {% if option == None or option == 'all' %}
-                <a href = '/?op=all' class = "btn btn-default" style = "background-color: #DEF">All <span class="badge badge-light">{{movies | length}}</span></a>
-                <a href = '/?op=movies' class = "btn btn-default">Movies</a>
-                <a href = '/?op=series' class = "btn btn-default">Series</a>
+                <div class = 'btn-group'>
+                    <a href = '/?op=all' class = "btn btn-default" style = "background-color: #DEF">All <span class="badge badge-light">{{movies | length}}</span></a>
+                    <a href = '/?op=movies' class = "btn btn-default">Movies</a>
+                    <a href = '/?op=series' class = "btn btn-default">Series</a>
+                </div>
+                <div class = 'btn-group float-right mt-2 mt-md-0'>
+                    <a href = '/?op=all' class = "btn btn-default btn-sm" style = "background-color: rgb(163, 255, 168)">a-z</a>
+                    <a href = '/?op=new' class = "btn btn-default btn-sm">new</a>
+                </div>
                 {% elif option == 'movies' %}
-                <a href = '/?op=all' class = "btn btn-default">All</a>
-                <a href = '/?op=movies' class = "btn btn-default" style = "background-color: #DEF">Movies <span class="badge badge-light">{{movies | length}}</span></a>
-                <a href = '/?op=series' class = "btn btn-default">Series</a>
+                <div class = 'btn-group'>
+                    <a href = '/?op=all' class = "btn btn-default">All</a>
+                    <a href = '/?op=movies' class = "btn btn-default" style = "background-color: #DEF">Movies <span class="badge badge-light">{{movies | length}}</span></a>
+                    <a href = '/?op=series' class = "btn btn-default">Series</a>
+                </div>
                 {% elif option == 'series' %}
-                <a href = '/?op=all' class = "btn btn-default">All</a>
-                <a href = '/?op=movies' class = "btn btn-default">Movies</a>
-                <a href = '/?op=series' class = "btn btn-default" style = "background-color: #DEF">Series <span class="badge badge-light">{{movies | length}}</span></a>
+                <div class = 'btn-group'>
+                    <a href = '/?op=all' class = "btn btn-default">All</a>
+                    <a href = '/?op=movies' class = "btn btn-default">Movies</a>
+                    <a href = '/?op=series' class = "btn btn-default" style = "background-color: #DEF">Series <span class="badge badge-light">{{movies | length}}</span></a>
+                </div>
                 {% elif option == 'new' %}
-                <a href = '/?op=all' class = "btn btn-default">All</a>
-                <a href = '/?op=movies' class = "btn btn-default">Movies</a>
-                <a href = '/?op=series' class = "btn btn-default">Series</a>
+                <div class = 'btn-group'>
+                    <a href = '/?op=all' class = "btn btn-default" style = "background-color: #DEF">All <span class="badge badge-light">{{movies | length}}</span></a>
+                    <a href = '/?op=movies' class = "btn btn-default">Movies</a>
+                    <a href = '/?op=series' class = "btn btn-default">Series</a>
+                </div>
+                <div class = 'btn-group float-right mt-2 mt-md-0'>
+                    <a href = '/?op=all' class = "btn btn-default btn-sm">a-z</a>
+                    <a href = '/?op=new' class = "btn btn-default btn-sm" style = "background-color: rgb(245, 255, 158)">new</a>
+                </div>
                 {% endif %}
+                
             </div>
         </div>
         <div class = "container row pt-3 mx-auto">
