@@ -10,54 +10,68 @@
     <body>
         {% extends "template.html" %}
         {% block content %}
-        <div class = "container row p-0 mx-auto">
-            <div>
-            <div class = "container row m-0">
-                <div class = " card p-3 pb-0 container shadow border-0 rounded mt-2 col-sm-4">
-                    {% if movie.image %}
-                    <img class = "card-img-top" src = "data:image/jpg;charset = utf-8;base64,{{ movie.image }}" alt = "Card image">
-                    {% else %}
-                    <img class = "card-img-top" src = "{{url_for('static',filename = 'images/codered.jpg')}}" alt = "Card image">
-                    {% endif %}
-                    <a href = "{{movie.trailer}}" style = "font-family: monospace;" class = "text-dark mt-1 text-center stretched-link">Click for Trailer</a>
+        <div class = "container p-0 m-auto">
+        <div class = "card border-0 shadow rounded pt-3 pb-3 mx-auto">
+            <div class = "container row m-0 p-0">
+                <div class = "col-sm-5">
+                    <div class = " card p-3 pb-0 container shadow border-0 rounded">
+                        {% if movie.image %}
+                        <img class = "card-img-top" src = "data:image/jpg;charset = utf-8;base64,{{ movie.image }}" alt = "Card image">
+                        {% else %}
+                        <img class = "card-img-top" src = "{{url_for('static',filename = 'images/codered.jpg')}}" alt = "Card image">
+                        {% endif %}
+                        <a href = "{{movie.trailer}}" style = "font-family: monospace;" class = "text-dark mt-1 text-center stretched-link">Click for Trailer</a>
+                    </div>
                 </div>
                 
-                <div class = 'container-fluid col-sm-8 pt-3'>
-                    <h2><strong>{{movie.movie}}</strong></h2>
-                    {% if (movie.movie_or_series == "film series") %}
-
-                    <div class = "mb-3">
-                        <span class = "badge badge-pill badge-success">Film series</span>
-                    </div>
-
-                    {% elif (movie.movie_or_series == "series") %}
+                <div class = "col-sm-7">
+                    <div class = 'card pb-3 pl-md-4 mt-3 mt-md-0 container shadow border-0 rounded pt-3'>
+                        <h2><strong>{{movie.movie}}</strong></h2>
+                        {% if (movie.movie_or_series == "film series") %}
 
                         <div class = "mb-3">
-                            <span class = "badge badge-pill badge-info">TV series</span>
+                            <span class = "badge badge-pill badge-success">Film series</span>
+                        </div>
+
+                        {% elif (movie.movie_or_series == "series") %}
+
+                        <div class = "mb-3">
+                                <span class = "badge badge-pill badge-info">TV series</span>
+                        </div>
+
+                        {% else %}
+                        <div class = "mb-3">
+                            <span class = "badge badge-pill badge-dark">Movie</span>
+                        </div>
+
+                        {% endif %}
+                            
+                        <p>Genre : {{movie.genre}}</p>
+
+                        {% if (movie.movie_or_series == "film series") %}
+                        <p>Since {{movie.year}}</p>
+                        <p>{{movie.imdb|int}} movies</p>
+
+                        {% elif (movie.movie_or_series == "series") %}
+                        <p>Since {{movie.year}}</p>
+                        <p>{{movie.imdb|int}} seasons</p>
+
+                        {% else %}
+                        <p>Release year : {{movie.year}}</p>
+                        <p>IMDb : {{movie.imdb}}</p>
+
+                        {% endif %}
+
+                        <div class =  "container-fluid">
+                            <p class = "float-right">
+                                <em>- {{movie.addedBy}}</em>
+                            </p>
+                        </div>
+                        <a class = "btn btn-success" href = "https://www.google.com/search?q={{movie.movie}} {{movie.movie_or_series}}" target = "_blank">Click for More Info</a>
                     </div>
-                    {% endif %}
-                        
-                    <p>Genre: {{movie.genre}}</p>
-                    {% if (movie.movie_or_series == "film series") %}
-                    <p>Since {{movie.year}}</p>
-                    <p">{{movie.imdb|int}} movies</p>
-                    {% elif (movie.movie_or_series == "series") %}
-                    <p>Since {{movie.year}}</p>
-                    <p">{{movie.imdb|int}} seasons</p>
-                    {% else %}
-                    <p>{{movie.year}}</p>
-                    <p">IMDb: {{movie.imdb}}</p>
-                    {% endif %}
-                    <p>Release year:{{movie.year}}</p>
-                    <div class =  "container-fluid">
-                        <p class = "float-right">
-                            <em>- {{movie.addedBy}}</em>
-                        </p>
-                    </div>
-                    <a class = "btn btn-success text-center mt-5" href = "https://www.google.com/search?q={{movie.movie}} {{movie.movie_or_series}}" target = "_blank">Click for More Info</a>
                 </div>
-            </div>    
             </div>
+        </div>
         </div>
         {% endblock %}
     </body>
