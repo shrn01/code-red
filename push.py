@@ -3,6 +3,14 @@ import os
 
 name = ' '.join(sys.argv[1:])
 
-os.system("git add .")
-os.system("git commit -m " + '"' + name + '"')
-os.system("git push origin main")
+command = "git add ."
+print("executing",command)
+os.system(command)
+
+command = "git commit -m " + '"' + name + '"'
+print("executing",command)
+os.system(command)
+
+command = "git push origin main"
+print("executing",command)
+os.system(command)
