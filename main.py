@@ -30,7 +30,7 @@ db = SQLAlchemy(app)
 def index():
     option = request.args.get('op')
     # db.session.query(Movie).filter(Movie.movie == "Harry Potter").update({Movie.movie_or_series : "film series"})
-    db.session.commit()
+    # db.session.commit()
     # print(type(option))
     # c = time.time()
     if option == 'all' or option == None:
@@ -59,6 +59,34 @@ def index():
         # print(movies[i].image)
     return render_template("index.html",movies = movies, option = option)
 
+#get all movies added by a user
+@app.route("/user/<name>")
+def user(name):
+    movies = Movie.query.filter_by(addedBy = name).all()
+    movies.sort(key = lambda x : x.movie)
+    for i in range(len(movies)):
+        # print(movies[i])
+        movies[i].image = base64.b64encode(movies[i].image)
+        movies[i].image = movies[i].image.decode('utf-8')
+        # print(movies[i].image)
+    return render_template("user.html",movies = movies, name = name)
+
+#get all movies in a genre
+@app.route("/genre/<genre>")
+def genre(genre):
+    genre = genre.split('/')
+    if len(genre) == 1:
+        movies = Movie.query.filter(Movie.genre.contains(genre[0])).all()
+    else:
+        movies = Movie.query.filter(Movie.genre.contains(genre[0]), Movie.genre.contains(genre[1])).all()
+    movies.sort(key = lambda x : x.movie)
+    for i in range(len(movies)):
+        # print(movies[i])
+        movies[i].image = base64.b64encode(movies[i].image)
+        movies[i].image = movies[i].image.decode('utf-8')
+        # print(movies[i].image)
+    return render_template("genre.html",movies = movies, genre = genre)
+
 # get a random movie < broken right now >
 @app.route("/random")
 def random():
@@ -73,10 +101,19 @@ def random():
 @app.route("/movie/<id>")
 def movie(id):
     movie = Movie.query.get(id)
+    l = movie.genre.split('/')
+    similar = Movie.query.filter(Movie.genre.contains(l[0])).all()
     # print(movie.movie_or_series)
+    similar.remove(movie)
+    if len(similar) > 4:
+        similar = similar[:4]
+    for i in range(len(similar)):
+        similar[i].image = base64.b64encode(similar[i].image)
+        similar[i].image = similar[i].image.decode('utf-8')
+    # print(type(movie.image))
     movie.image = base64.b64encode(movie.image)
     movie.image = movie.image.decode('utf-8')
-    return render_template("movie.html",movie = movie)
+    return render_template("movie.html",movie = movie, similar = similar)
 
 
 # method for users to add a movie 

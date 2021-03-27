@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>
+                {{name}} | Code Red
+        </title>
+        <link rel="shortcut icon" href="{{ url_for('static', filename='images/favicon.svg') }}">  
+
+    </head>
+    <body>
+        
+        {% extends "template.html" %}
+        {% block content %}
+        <div class = "container text-center mb-0 pb-0">
+            <h3 style="font-family: monospace;">Added by <em>{{name}}</em></h3>
+        </div>
+        <div class = "container row pt-3 mx-auto">
+            {% for movie in movies %}
+            <div class = "col-sm-3">
+            <div class = "card pt-2 shadow m-1 mt-3 border-0">
+                <div class = "container mt-2">
+                    {% if movie.image %}
+                    <img class = "card-img-top" src = "data:image/jpg;charset = utf-8;base64,{{movie.image}}" alt = "Card image">
+                    {% else %}
+                    <img class = "card-img-top" src = "{{url_for('static',filename = 'images/codered.jpg')}}" alt = "Card image">
+                    {% endif %}
+                </div>
+                <a href = '{{ url_for("movie", id = movie.id) }}' target = "_blank" class = "stretched-link"></a>
+                <div class = "card-body pt-2">
+                    <p class = "m-0"><strong>{{movie.movie}}</strong></p>
+                    {% if (movie.movie_or_series == "film series") %}
+
+                    <div class = "row">
+                        <p class = "col m-0 mb-1 small">{{movie.genre}}</p>
+                        <div class = "col float-right pt-0">
+                            <span class = "badge badge-pill badge-success">Film series</span>
+                        </div>
+                    </div>
+
+                    {% elif (movie.movie_or_series == "series") %}
+
+                    <div class = "row">
+                        <p class = "col m-0 mb-1 small">{{movie.genre}}</p>
+                        <div class = "col float-right pt-0">
+                            <span class = "badge badge-pill badge-info">TV series</span>
+                        </div>
+                        
+                    </div>
+
+                    {% else %}
+                    <p class = "m-0 mb-1 small">{{movie.genre}}</p>
+                    {% endif %}
+                    <div class = "row">
+                        {% if (movie.movie_or_series == "film series") %}
+                        <p class = "col m-0">Since {{movie.year}}</p>
+                        <p class = "float-right col m-0">{{movie.imdb|int}} movies</p>
+                        {% elif (movie.movie_or_series == "series") %}
+                        <p class = "col m-0">Since {{movie.year}}</p>
+                        <p class = "float-right col m-0">{{movie.imdb|int}} seasons</p>
+                        {% else %}
+                        <p class = "col m-0">{{movie.year}}</p>
+                        <p class = "float-right col m-0">IMDb: {{movie.imdb}}</p>
+                        {% endif %}
+                    </div>
+                    
+                </div>
+            </div>    
+            </div>      
+            {% endfor %}
+        {% endblock %}     
+    </body>
+</html>
