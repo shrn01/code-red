@@ -27,6 +27,9 @@
                             <a href = "{{ url_for('like', id = movie.id) }}" class = "btn" style="background-color:rgb(177, 255, 190);"><i class = "thumb-up"></i> Like <span class="badge badge-light">{{movie.likes}}</span></a>  
                             <a href = "{{ url_for('dislike', id = movie.id) }}" class = "btn" style="background-color: rgb(255, 162, 146);"><i class = "thumb-down"></i> Dislike <span class="badge badge-light">{{movie.dislikes}}</span></a>
                         </p>
+                        {% if (movie.likes) %}
+                        <p>{{ (movie.likes)/(movie.likes + movie.dislikes) * 100}}% users loved this {{movie.movie_or_series}}</p>
+                        {% endif %}
                     </div>
                 </div>
                 
@@ -93,7 +96,7 @@
                             </div>
                         {% endfor %}
                         </div>
-                        <a href = "{{ url_for('genre', genre = ' '.join(movie.genre.split('/'))) }}" target = "_blank" class = "btn btn-secondary mt-3">More</a>
+                        <a href = "{{ url_for('genre', genre = ' '.join(movie.genre.split('/'))) }}" target = "_blank" class = "btn mt-3 btn-dark">More</a>
                     </div>
                     {% endif %}
                 </div>
