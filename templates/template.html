@@ -10,6 +10,8 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
         <!-- 
             <link rel = "stylesheet" href = "{{ url_for('static',filename = 'css/bootstrap.min.css')}}"> 
         -->
@@ -32,6 +34,7 @@
                         <ul class = 'dropdown-menu dropdown-menu-right shadow border-0' role = 'menu'>
                             <li><a href = "{{ url_for('index') }}" class = 'text-center dropdown-item' role="menuitem">Home</a></li>
                             <li><a href = "{{ url_for('random') }}" class = 'text-center dropdown-item' role="menuitem">Random movie</a></li>
+                            <li><a href = "{{url_for('genres') }}" class = 'text-center dropdown-item' role="menuitem">Genres</a></li>
                             <li><a href = "{{url_for('contribute') }}" class = 'text-center dropdown-item' role="menuitem">Contribute</a></li>
                         </ul>
                     </div>

@@ -16,7 +16,7 @@
                 <div class = "col-sm-5">
                     <div class = " card p-3 pb-0 container shadow border-0 rounded">
                         {% if movie.image %}
-                        <img class = "card-img-top" src = "data:image/jpg;charset = utf-8;base64,{{ movie.image }}" alt = "Card image">
+                        <img class = "card-img-top rounded" src = "data:image/jpg;charset = utf-8;base64,{{ movie.image }}" alt = "Card image">
                         {% else %}
                         <img class = "card-img-top" src = "{{url_for('static',filename = 'images/codered.jpg')}}" alt = "Card image">
                         {% endif %}
@@ -76,7 +76,7 @@
                         {% for each in similar %}
                             <div class = "col-md-3 col-6 p-0">
                                 <div class = "card shadow p-0 mr-3 mt-3 rounded border-0 ">
-                                    <img class = "card-img-top" src = "data:image/jpg;charset = utf-8;base64,{{each.image}}" alt = "Card image">
+                                    <img class = "card-img-top rounded" src = "data:image/jpg;charset = utf-8;base64,{{each.image}}" alt = "Card image">
                                 </div>
                                 <a href = '{{ url_for("movie", id = each.id) }}' target = "_blank" class = "stretched-link"></a>
                             </div>
