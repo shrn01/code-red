@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>
+                Contribute | Code Red
+        </title>
+        <link rel="shortcut icon" href="{{ url_for('static', filename='images/favicon.svg') }}">  
+    </head>
+    <body>
+        {% extends "template.html" %}
+        {% block content %}
+        <div class = "container" style="max-width: 400px;">
+        {% if post == True %}
+        <div style = "background-color: lightgreen;" class = "container pt-3 pb-2 text-center mb-3 rounded">
+            <p>Saved.</p>
+        </div>
+        {% endif %}
+            <form method = "POST" enctype = 'multipart/form-data'>
+                <div class = "form-group" id = "movie_box">
+                    <label for = "summary">Tell about the movie without any spoilers</label>
+                    <textarea required class = "form-control" rows = "5" placeholder = "Add the summary in 2-3 lines" maxlength = "500" type = "text", name = "summary"></textarea>
+                </div>
+                <div>
+                    <input type = "submit" class = "btn btn-success", name = "Submit">
+                </div>
+            </form>
+            
+        </div>
+        {% endblock %}
+    </body>
+</html>

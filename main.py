@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, redirect
 # import sqlite3
 from PIL import Image
 from io import BytesIO
@@ -179,17 +179,32 @@ def admin():
         db.session.commit()
         return render_template("admin.html", post = True)
 
+@app.route('/edit/<id>',methods = ['GET','POST'])
+def edit(id):
+    if request.method == "GET":
+        return render_template("edit.html")
+    elif request.method == "POST":
+        movie = Movie.query.get(id)
+        d = dict(request.form)
+        for i in d.keys():
+            if d[i] != None:
+                setattr(movie, i, d[i])
+                db.session.commit()
+        return redirect("/movie/"+str(id))
+
+
+
 # @app.route('/api')
 # def api():
 #     movies = db.session.query(Movie).update({Movie.movie_or_series : "movie"})
 #     return "done"
 
 # convert a image to blob and return
-def to_blob():
-    with open('D:/Desktop/spider.jpg','rb') as file:
-        data = file.read()
-    data = resize_image(data)
-    return
+# def to_blob():
+#     with open('D:/Desktop/spider.jpg','rb') as file:
+#         data = file.read()
+#     data = resize_image(data)
+#     return
 
 
 # to convert any image to our required aspect ratio
@@ -254,14 +269,14 @@ class Movie(db.Model):
     # def __lt__(self,other):
     #     return self.movie < other.movie
 
-def create_db():
-    db.create_all()
+# def create_db():
+#     db.create_all()
 
-def drop_db():
-    db.drop_all()
+# def drop_db():
+#     db.drop_all()
 
-def create_table():
-    Movie.__table__.create(db.engine)
+# def create_table():
+#     Movie.__table__.create(db.engine)
 
 
 

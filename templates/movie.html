@@ -62,6 +62,11 @@
 
                         {% endif %}
 
+                        {% if (movie.summary != None) %}
+                        <h5>Summary</h5>
+                        <p><em>{{ movie.summary }}</em></p>
+                        {% endif %}
+
                         <div class =  "container-fluid">
                             <p class = "float-right">
                                 <em>- <a href = "{{ url_for('user', name = movie.addedBy) }}" target = "_blank">{{movie.addedBy}}</a></em>
@@ -88,6 +93,9 @@
                 </div>
             </div>
         </div>
+        </div>
+        <div class = " text-center">
+            <a href = "{{ url_for('edit',id = movie.id)}}" target = _blank class = "btn btn-success mt-3">Edit Summary</a>
         </div>
         {% endblock %}
     </body>
