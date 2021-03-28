@@ -113,7 +113,10 @@ def random():
 def movie(id):
     movie = Movie.query.get(id)
     l = movie.genre.split('/')
-    similar = Movie.query.filter(Movie.genre.contains(l[0])).all()
+    if len(l) == 1:
+        similar = Movie.query.filter(Movie.genre.contains(l[0])).all()
+    else:
+        similar = Movie.query.filter((Movie.genre.contains(l[0])) | (Movie.genre.contains(l[1]))).all()
     # print(movie.movie_or_series)
     similar.remove(movie)
     if len(similar) > 4:
