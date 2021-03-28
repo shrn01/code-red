@@ -195,7 +195,19 @@ def edit(id):
                 db.session.commit()
         return redirect("/movie/"+str(id))
 
+@app.route('/like/<id>',methods = ['GET'])
+def like(id):
+    movie = Movie.query.get(id)
+    setattr(movie, 'likes', movie.likes + 1)
+    db.session.commit()
+    return redirect("/movie/"+str(id))
 
+@app.route('/dislike/<id>',methods = ['GET'])
+def dislike(id):
+    movie = Movie.query.get(id)
+    setattr(movie, 'dislikes', movie.dislikes + 1)
+    db.session.commit()
+    return redirect("/movie/"+str(id))
 
 # @app.route('/api')
 # def api():

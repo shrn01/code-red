@@ -22,6 +22,12 @@
                         {% endif %}
                         <a href = "{{movie.trailer}}" target = "_blank" style = "font-family: monospace;" class = "text-dark mt-1 text-center stretched-link">Click for Trailer</a>
                     </div>
+                    <div class = "card mt-3 mx-auto pt-3 pb-0 shadow border-0 rounded text-center">
+                        <p>
+                            <a href = "{{ url_for('like', id = movie.id) }}" class = "btn" style="background-color:rgb(177, 255, 190);"><i class = "thumb-up"></i> Like <span class="badge badge-light">{{movie.likes}}</span></a>  
+                            <a href = "{{ url_for('dislike', id = movie.id) }}" class = "btn" style="background-color: rgb(255, 162, 146);"><i class = "thumb-down"></i> Dislike <span class="badge badge-light">{{movie.dislikes}}</span></a>
+                        </p>
+                    </div>
                 </div>
                 
                 <div class = "col-sm-7">
@@ -87,7 +93,7 @@
                             </div>
                         {% endfor %}
                         </div>
-                        <a href = "{{ url_for('genre', genre = ' '.join(movie.genre.split('/'))) }}" target = "_blank" class = "btn btn-secondary mt-3">more</a>
+                        <a href = "{{ url_for('genre', genre = ' '.join(movie.genre.split('/'))) }}" target = "_blank" class = "btn btn-secondary mt-3">More</a>
                     </div>
                     {% endif %}
                 </div>
