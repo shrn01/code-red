@@ -22,6 +22,7 @@
                     <div class = 'd-none d-md-flex btn-group float-right'>
                         <div class = 'btn btn-secondary'><a href = "{{ url_for('index') }}" class = 'text-white'>Home</a></div>
                         <div class = 'btn btn-secondary'><a href = "{{ url_for('random') }}" class = 'text-white'>Random movie</a></div>
+                        <div class = 'btn btn-secondary'><a href = "{{ url_for('genres') }}" class = 'text-white'>Genres</a></div>
                         <div class = 'btn btn-secondary'><a href = "{{url_for('contribute') }}" class = 'text-white'>Contribute</a></div>
                     </div>
                     <div class = 'd-md-none btn-group float-right'>
@@ -83,6 +84,10 @@
                         <li>
                             <a class="text-white" href = "{{ url_for('random') }}">Random Suggestion</a>
                             
+                        </li>
+                        <li>
+                            <a class = "text-white" href = "{{ url_for('genres') }}">All Genres</a>
+
                         </li>
                         <li>
                             <a class="text-white" href = "{{ url_for('contribute') }}">Add a Movie/series</a>

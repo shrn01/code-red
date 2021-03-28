@@ -74,17 +74,18 @@ def user(name):
 #get all movies in a genre
 @app.route("/genre/<genre>")
 def genre(genre):
-    genre = genre.split('/')
+    genre = genre.split(' ')
     if len(genre) == 1:
         movies = Movie.query.filter(Movie.genre.contains(genre[0])).all()
     else:
-        movies = Movie.query.filter(Movie.genre.contains(genre[0]), Movie.genre.contains(genre[1])).all()
+        movies = Movie.query.filter((Movie.genre.contains(genre[0])) | (Movie.genre.contains(genre[1]))).all()
     movies.sort(key = lambda x : x.movie)
     for i in range(len(movies)):
         # print(movies[i])
         movies[i].image = base64.b64encode(movies[i].image)
         movies[i].image = movies[i].image.decode('utf-8')
         # print(movies[i].image)
+    genre = ' '.join(genre)
     return render_template("genre.html",movies = movies, genre = genre)
 
 # get a random movie < broken right now >
@@ -94,9 +95,19 @@ def random():
     length = len(movies)
     i = randint(0,length)
     movie = movies[i]
+    l = movie.genre.split('/')
+    similar = Movie.query.filter(Movie.genre.contains(l[0])).all()
+    # print(movie.movie_or_series)
+    similar.remove(movie)
+    if len(similar) > 4:
+        similar = similar[:4]
+    for i in range(len(similar)):
+        similar[i].image = base64.b64encode(similar[i].image)
+        similar[i].image = similar[i].image.decode('utf-8')
+    # print(type(movie.image))
     movie.image = base64.b64encode(movie.image)
     movie.image = movie.image.decode('utf-8')
-    return render_template("movie.html",movie = movie)
+    return render_template("movie.html",movie = movie, similar = similar)
 
 @app.route("/movie/<id>")
 def movie(id):
@@ -131,7 +142,7 @@ def contribute():
         return render_template("contribute.html", post = True)
 
 
-# About page
+# Contributors page
 @app.route('/contributors')
 def contributors():
     l = list(db.session.query(Movie.addedBy).distinct())
@@ -139,6 +150,18 @@ def contributors():
     for i in l:
         names.append(i[0])
     return render_template('contributors.html',names = names)
+
+
+# Genres page
+@app.route('/genres')
+def genres():
+    l = list(db.session.query(Movie.genre).distinct())
+    names = set()
+    for i in l:
+        genres = i[0].replace('/',' ').split(' ')
+        for genre in genres:
+            names.add(genre)
+    return render_template('genres.html',genres = names)
 
 
 # admin page to delete any wrong info

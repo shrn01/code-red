@@ -2,7 +2,7 @@
 <html>
     <head>
         <title>
-                Contributors | Code Red
+                Genres | Code Red
         </title>
         <link rel="shortcut icon" href="{{ url_for('static', filename='images/favicon.svg') }}">  
     </head>
@@ -10,11 +10,10 @@
         {% extends "template.html" %}
         {% block content %}
         <div class = "container mt-2">
-        <h2>Contributors</h2>
-        <h5>
-        <ul>
-            {% for name in names %}
-            <li><a href = "{{ url_for('user', name = name) }}" target = "_blank">{{name}}</a></li>
+        <h2>Genres</h2>
+        <h5><ul>
+            {% for name in genres %}
+            <li><a href = "{{ url_for('genre', genre = name) }}" target = "_blank">{{name}}</a></li>
             {% endfor %}
         </ul>
         </h5>

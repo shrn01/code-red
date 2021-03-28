@@ -82,7 +82,7 @@
                             </div>
                         {% endfor %}
                         </div>
-                        <a href = "{{ url_for('genre', genre = movie.genre) }}" target = "_blank" class = "btn btn-secondary mt-3">more</a>
+                        <a href = "{{ url_for('genre', genre = ' '.join(movie.genre.split('/'))) }}" target = "_blank" class = "btn btn-secondary mt-3">more</a>
                     </div>
                     {% endif %}
                 </div>
