@@ -10,12 +10,11 @@
         {% extends "template.html" %}
         {% block content %}
         <div class = "container mt-2">
-        <h2>Genres</h2>
-        <h5><ul>
+        <h2 class="mb-4"><b>Genres</b></h2>
+        <h5>
             {% for name in genres %}
-            <li><a href = "{{ url_for('genre', genre = name) }}" target = "_blank">{{name}}</a></li>
+            <a style="background-color: rgb(178,190,205);" class = "btn ml-2 mb-3" href = "{{ url_for('genre', genre = name) }}" target = "_blank"><b>#{{name}}</b></a>
             {% endfor %}
-        </ul>
         </h5>
         </div>
         {% endblock %}
