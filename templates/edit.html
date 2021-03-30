@@ -6,15 +6,10 @@
         </title>
         <link rel="shortcut icon" href="{{ url_for('static', filename='images/favicon.svg') }}">  
     </head>
-    <body>
+    <body style="background-color: rgb(248, 248, 248);">
         {% extends "template.html" %}
         {% block content %}
         <div class = "container" style="max-width: 400px;">
-        {% if post == True %}
-        <div style = "background-color: lightgreen;" class = "container pt-3 pb-2 text-center mb-3 rounded">
-            <p>Saved.</p>
-        </div>
-        {% endif %}
             <form method = "POST" enctype = 'multipart/form-data'>
                 <div class = "form-group" id = "movie_box">
                     <label for = "summary">Tell about the movie without any spoilers</label>
