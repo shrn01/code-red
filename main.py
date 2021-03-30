@@ -9,7 +9,7 @@ import os
 from os import environ
 from config import *
 import config
-from random import randint
+from random import randint, sample
 # import sys
 # import time
 
@@ -120,7 +120,7 @@ def movie(id):
     # print(movie.movie_or_series)
     similar.remove(movie)
     if len(similar) > 4:
-        similar = similar[:4]
+        similar = sample(similar,4)
     for i in range(len(similar)):
         similar[i].image = base64.b64encode(similar[i].image)
         similar[i].image = similar[i].image.decode('utf-8')
