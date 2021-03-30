@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect
+from flask import Flask, render_template, request, redirect, jsonify
 # import sqlite3
 from PIL import Image
 from io import BytesIO
@@ -29,6 +29,10 @@ db = SQLAlchemy(app)
 @app.route("/")
 def index():
     option = request.args.get('op')
+    # IN PROGRESS
+    # page = request.args.get('pg')
+
+
     # db.session.query(Movie).filter(Movie.movie == "Harry Potter").update({Movie.movie_or_series : "film series"})
     # db.session.commit()
     # print(type(option))
@@ -47,6 +51,15 @@ def index():
         movies = Movie.query.filter_by(movie_or_series = 'series').all()
         movies.sort(key = lambda x : x.movie)
     
+
+    # IN PROGRESS 
+    # if page * 40 < len(movies):
+    #     if (page + 1) * 40 >= len(movies):
+    #         movies = movies[page * 40 : (page + 1) * 40]
+    #     else:
+    #         movies = movies[page * 40 : ]
+
+
     # print(movies)
     # a = time.time()
     # print((a-c), ' s to get queries')
@@ -58,6 +71,46 @@ def index():
         movies[i].image = movies[i].image.decode('utf-8')
         # print(movies[i].image)
     return render_template("index.html",movies = movies, option = option)
+
+
+
+# Home page
+@app.route("/only_text")
+def only_text():
+    option = request.args.get('op')
+    if option == None:
+        movies = Movie.query.all()
+        movies.sort(key = lambda x : x.movie)
+        # print(type(movies[0].movie_or_series))
+    else:
+        movies = Movie.query.all()
+        movies.sort(key = lambda x : x.id, reverse = True)
+
+    return render_template("only_text.html",movies = movies)
+
+
+@app.route("/random_json")
+def random_json():
+    movies = Movie.query.all()
+    length = len(movies)
+    i = randint(0,length)
+    movie = movies[i]
+    # length = len(movies)
+    # i = randint(0,length)
+    movie.image = base64.b64encode(movie.image)
+    movie.image = movie.image.decode('utf-8')
+
+    myDict = {}
+    myDict['name'] = movie.movie
+    myDict['year'] = movie.year
+    myDict['IMDB'] = movie.imdb
+    myDict['trailer'] = movie.trailer
+    myDict['image'] = movie.image
+    myDict['summary'] = movie.summary
+    myDict['genre'] = movie.genre
+
+    return jsonify(myDict)
+
 
 #get all movies added by a user
 @app.route("/user/<name>")
