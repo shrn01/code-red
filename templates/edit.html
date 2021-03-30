@@ -2,7 +2,7 @@
 <html>
     <head>
         <title>
-                Contribute | Code Red
+                Edit | Code Red
         </title>
         <meta name="theme-color" content="#343a40"> 
         <link rel="shortcut icon" href="{{ url_for('static', filename='images/favicon.svg') }}">  
@@ -20,7 +20,22 @@
                     <input type = "submit" class = "btn btn-success", name = "Submit">
                 </div>
             </form>
-            
+            <form class = "mt-4" method = "POST" enctype = 'multipart/form-data'>
+                <p class="mb-2">Change Movie Poster</p>
+                <div class = "custom-file mb-3">
+                    <input class = "custom-file-input" accept=".jpg" type = "file", name = "image">
+                    <label for = "image" class = 'custom-file-label'>Upload movie poster (.jpg)</label>
+                </div>
+                <div>
+                    <input type = "submit" class = "btn btn-success", name = "Submit">
+                </div>
+            </form>
+            <script>
+                $(".custom-file-input").on("change", function() {
+                var fileName = $(this).val().split("\\").pop();
+                $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+                });
+            </script>
         </div>
         {% endblock %}
     </body>

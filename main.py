@@ -189,10 +189,16 @@ def edit(id):
     elif request.method == "POST":
         movie = Movie.query.get(id)
         d = dict(request.form)
-        for i in d.keys():
-            if d[i] != None:
-                setattr(movie, i, d[i])
-                db.session.commit()
+        image = request.files.get('image')
+        if image:
+            image = resize_image(image.read())
+            setattr(movie,'image',image)
+            db.session.commit()
+        else:
+            for i in d.keys():
+                if d[i] != None:
+                    setattr(movie, i, d[i])
+                    db.session.commit()
         return redirect("/movie/"+str(id))
 
 @app.route('/like/<id>',methods = ['GET'])
