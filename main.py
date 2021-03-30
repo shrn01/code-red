@@ -161,7 +161,7 @@ def genres():
     l = list(db.session.query(Movie.genre).distinct())
     names = set()
     for i in l:
-        genres = i[0].replace('/',' ').split(' ')
+        genres = i[0].split('/')
         for genre in genres:
             names.add(genre)
     return render_template('genres.html',genres = names)
