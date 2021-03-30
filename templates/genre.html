@@ -19,9 +19,9 @@
             <div class = "card pt-2 shadow m-1 mt-3 border-0">
                 <div class = "container mt-2">
                     {% if movie.image %}
-                    <img class = "card-img-top" src = "data:image/jpg;charset = utf-8;base64,{{movie.image}}" alt = "Card image">
+                    <img loading = "lazy" class = "card-img-top" src = "data:image/jpg;charset = utf-8;base64,{{movie.image}}" alt = "Card image">
                     {% else %}
-                    <img class = "card-img-top" src = "{{url_for('static',filename = 'images/codered.jpg')}}" alt = "Card image">
+                    <img loading = "lazy" class = "card-img-top" src = "{{url_for('static',filename = 'images/codered.jpg')}}" alt = "Card image">
                     {% endif %}
                 </div>
                 <a href = '{{ url_for("movie", id = movie.id) }}' target = "_blank" class = "stretched-link"></a>
