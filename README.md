@@ -1,7 +1,9 @@
-# code-red
-Movie review website using SQL, Python with Flask
+# Code Red
+Movie review website using PostgreSQL, Python, Flask, HTML and Bootstrap.
 
+## Screenshots
+![image](img1.png)
 
-To install flask, use 'pip install flask'
+![image](img2.png)
 
 To view the webiste, click [here](https://code-red-25.herokuapp.com/)
