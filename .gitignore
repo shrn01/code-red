@@ -3,3 +3,6 @@ venv/
 local_database.db
 movies.db
 __pycache__/
+push.py
+.vscode/
+migrations/
