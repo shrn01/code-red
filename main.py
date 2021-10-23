@@ -7,13 +7,15 @@ from flask_sqlalchemy import SQLAlchemy
 import psycopg2
 import os
 from os import environ
+from config import *
 import config
 
 # Defining app
 app = Flask(__name__)
 
+
 # SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL')
-app.config.from_object(os.environ['APP_SETTINGS'])
+app.config.from_object(DevelopmentConfig)
 
 
 # database 
@@ -24,8 +26,8 @@ db = SQLAlchemy(app)
 @app.route("/")
 def index():
     movies = Movie.query.all()
-    print(type(movies))
-    print(movies)
+    # print(type(movies))
+    # print(movies)
     for i in range(len(movies)):
         movies[i].image = base64.b64encode(movies[i].image)
         movies[i].image = movies[i].image.decode('utf-8')
@@ -67,7 +69,10 @@ def admin():
         d = dict(request.form)
         if (d['password'] != 'CodeRed'):
             return render_template("admin.html",post = False)
-        delete_entry((d['movie']))
+        # delete_entry((d['movie']))
+        obj = Movie.query.filter_by(movie = d['movie']).one()
+        db.session.delete(obj)
+        db.session.commit()
         return render_template("admin.html", post = True)
 
 
@@ -99,7 +104,7 @@ def to_blob(img):
 def resize_image(img):
     img = Image.open(BytesIO(img))
     img_ratio = img.size[0] / float(img.size[1])
-    ratio = 3.0/4.0 # Set image ratio here
+    ratio = 2.0/3.0 # Set image ratio here
     if ratio > img_ratio:
         box = (0, (img.size[1] * (1 - ratio)) / 2, img.size[0], (img.size[1] * (1 + ratio)) / 2)
         img = img.crop(box)
@@ -160,4 +165,4 @@ def create_table():
 
 # entering point for the program
 if __name__ == "__main__":
-    app.run(debug = False)
+    app.run(debug = True)
