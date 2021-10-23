@@ -47,6 +47,9 @@ def index():
     elif option == 'movies':
         movies = Movie.query.filter(Movie.movie_or_series != 'series').all()
         movies.sort(key = lambda x : x.movie)
+    elif option == "sort_by_imdb":
+        movies = Movie.query.all()
+        movies.sort(key = lambda x : x.imdb, reverse = True)
     else:
         movies = Movie.query.filter_by(movie_or_series = 'series').all()
         movies.sort(key = lambda x : x.movie)
