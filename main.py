@@ -1,20 +1,17 @@
-from flask import Flask, render_template, request, redirect, jsonify
-# import sqlite3
-from PIL import Image
-from io import BytesIO
-import base64
+from flask import Flask, render_template, request, redirect, abort
 from flask_sqlalchemy import SQLAlchemy
-import psycopg2
-import os
+
 from os import environ
 from config import *
-import config
 from random import randint, sample
-# import sys
-# import time
+import base64
+
+import utils
+
 
 # Defining app
 app = Flask(__name__)
+
 
 
 # SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL')
@@ -28,91 +25,66 @@ db = SQLAlchemy(app)
 # Home page
 @app.route("/")
 def index():
-    option = request.args.get('op')
-    # IN PROGRESS
-    # page = request.args.get('pg')
+    option, movies = get_all_movies()
 
-
-    # db.session.query(Movie).filter(Movie.movie == "Harry Potter").update({Movie.movie_or_series : "film series"})
-    # db.session.commit()
-    # print(type(option))
-    # c = time.time()
-    if option == 'all' or option == None:
-        movies = Movie.query.all()
-        movies.sort(key = lambda x : x.movie)
-        # print(type(movies[0].movie_or_series))
-    elif option == "new":
-        movies = Movie.query.all()
-        movies.sort(key = lambda x : x.id, reverse = True)
-    elif option == 'movies':
-        movies = Movie.query.filter(Movie.movie_or_series != 'series').all()
-        movies.sort(key = lambda x : x.movie)
-    elif option == "sort_by_imdb":
-        movies = Movie.query.all()
-        movies.sort(key = lambda x : x.imdb, reverse = True)
-    else:
-        movies = Movie.query.filter_by(movie_or_series = 'series').all()
-        movies.sort(key = lambda x : x.movie)
-    
-
-    # IN PROGRESS 
-    # if page * 40 < len(movies):
-    #     if (page + 1) * 40 >= len(movies):
-    #         movies = movies[page * 40 : (page + 1) * 40]
-    #     else:
-    #         movies = movies[page * 40 : ]
-
-
-    # print(movies)
-    # a = time.time()
-    # print((a-c), ' s to get queries')
-    # b = time.time()
-    # print((b-a)* 1000,' ms to sort')
-    for i in range(len(movies)):
-        # print(movies[i])
-        movies[i].image = base64.b64encode(movies[i].image)
-        movies[i].image = movies[i].image.decode('utf-8')
-        # print(movies[i].image)
     return render_template("index.html",movies = movies, option = option)
 
 
+#get all movies in a genre
+@app.route("/genre/<genre>")
+def genre(genre):
+    genre = genre.split(' ')
 
-# Home page
-@app.route("/only_text")
-def only_text():
-    option = request.args.get('op')
-    if option == None:
-        movies = Movie.query.all()
-        movies.sort(key = lambda x : x.movie)
-        # print(type(movies[0].movie_or_series))
+    if len(genre) == 1:
+        movies = Movie.query.filter(Movie.genre.contains(genre[0])).all()
     else:
-        movies = Movie.query.all()
-        movies.sort(key = lambda x : x.id, reverse = True)
+        movies = Movie.query.filter((Movie.genre.contains(genre[0])) | (Movie.genre.contains(genre[1]))).all()
+    
+    movies.sort(key = lambda x : x.movie)
 
-    return render_template("only_text.html",movies = movies)
+    for i in range(len(movies)):
+        movies[i] = encode_image(movies[i])
+
+    genre = ' '.join(genre)
+    return render_template("genre.html",movies = movies, genre = genre)
 
 
-@app.route("/random_json")
-def random_json():
-    movies = Movie.query.all()
-    length = len(movies)
-    i = randint(0,length)
-    movie = movies[i]
-    # length = len(movies)
-    # i = randint(0,length)
-    movie.image = base64.b64encode(movie.image)
-    movie.image = movie.image.decode('utf-8')
+# get a random movie 
+@app.route("/random")
+def random():
+    id = get_random()
+    return redirect("/movie/" + str(id))
 
-    myDict = {}
-    myDict['name'] = movie.movie
-    myDict['year'] = movie.year
-    myDict['IMDB'] = movie.imdb
-    myDict['trailer'] = movie.trailer
-    myDict['image'] = movie.image
-    myDict['summary'] = movie.summary
-    myDict['genre'] = movie.genre
 
-    return jsonify(myDict)
+@app.route("/movie/<id>")
+def movie(id):
+    movie, similar = get_movie_by_id(id)
+    return render_template("movie.html",movie = movie, similar = similar)
+
+
+# get the contribute page
+@app.route("/contribute", methods = ['GET'])
+def contribute():
+    return render_template("contribute.html", post = False)
+
+
+# method for users to add a movie < Handle movie already exists error >
+@app.route("/contribute", methods = ['POST'])
+def contribute_post():
+    image = utils.resize_image(request.files.get('image').read())
+    d = dict(request.form)
+    movie = Movie(d,image)
+    db.session.add(movie)
+    db.session.commit()
+    return render_template("contribute.html", post = True)
+
+
+# Contributors page
+@app.route('/contributors')
+def contributors():
+    l = list(db.session.query(Movie.addedBy).distinct())
+    names = [i[0] for i in l]
+    return render_template('contributors.html',names = names)
 
 
 #get all movies added by a user
@@ -120,95 +92,11 @@ def random_json():
 def user(name):
     movies = Movie.query.filter_by(addedBy = name).all()
     movies.sort(key = lambda x : x.movie)
+
     for i in range(len(movies)):
-        # print(movies[i])
-        movies[i].image = base64.b64encode(movies[i].image)
-        movies[i].image = movies[i].image.decode('utf-8')
-        # print(movies[i].image)
+        movies[i] = encode_image(movies[i])
+
     return render_template("user.html",movies = movies, name = name)
-
-#get all movies in a genre
-@app.route("/genre/<genre>")
-def genre(genre):
-    genre = genre.split(' ')
-    if len(genre) == 1:
-        movies = Movie.query.filter(Movie.genre.contains(genre[0])).all()
-    else:
-        movies = Movie.query.filter((Movie.genre.contains(genre[0])) | (Movie.genre.contains(genre[1]))).all()
-    movies.sort(key = lambda x : x.movie)
-    for i in range(len(movies)):
-        # print(movies[i])
-        movies[i].image = base64.b64encode(movies[i].image)
-        movies[i].image = movies[i].image.decode('utf-8')
-        # print(movies[i].image)
-    genre = ' '.join(genre)
-    return render_template("genre.html",movies = movies, genre = genre)
-
-# get a random movie < broken right now >
-@app.route("/random")
-def random():
-    movies = Movie.query.all()
-    length = len(movies)
-    i = randint(0,length)
-    movie = movies[i]
-    l = movie.genre.split('/')
-    similar = Movie.query.filter(Movie.genre.contains(l[0])).all()
-    # print(movie.movie_or_series)
-    similar.remove(movie)
-    if len(similar) > 4:
-        similar = similar[:4]
-    for i in range(len(similar)):
-        similar[i].image = base64.b64encode(similar[i].image)
-        similar[i].image = similar[i].image.decode('utf-8')
-    # print(type(movie.image))
-    movie.image = base64.b64encode(movie.image)
-    movie.image = movie.image.decode('utf-8')
-    return render_template("movie.html",movie = movie, similar = similar)
-
-@app.route("/movie/<id>")
-def movie(id):
-    movie = Movie.query.get(id)
-    l = movie.genre.split('/')
-    if len(l) == 1:
-        similar = Movie.query.filter(Movie.genre.contains(l[0])).all()
-    else:
-        similar = Movie.query.filter((Movie.genre.contains(l[0])) | (Movie.genre.contains(l[1]))).all()
-    # print(movie.movie_or_series)
-    similar.remove(movie)
-    if len(similar) > 4:
-        similar = sample(similar,4)
-    for i in range(len(similar)):
-        similar[i].image = base64.b64encode(similar[i].image)
-        similar[i].image = similar[i].image.decode('utf-8')
-    # print(type(movie.image))
-    movie.image = base64.b64encode(movie.image)
-    movie.image = movie.image.decode('utf-8')
-    return render_template("movie.html",movie = movie, similar = similar)
-
-
-# method for users to add a movie 
-@app.route("/contribute", methods = ['GET', 'POST'])
-def contribute():
-    if request.method == "GET":
-        return render_template("contribute.html", post = False)
-    elif request.method == "POST":
-        image = resize_image(request.files.get('image').read())
-        d = dict(request.form)
-        # print(d)
-        movie = Movie(d,image)
-        db.session.add(movie)
-        db.session.commit()
-        return render_template("contribute.html", post = True)
-
-
-# Contributors page
-@app.route('/contributors')
-def contributors():
-    l = list(db.session.query(Movie.addedBy).distinct())
-    names = []
-    for i in l:
-        names.append(i[0])
-    return render_template('contributors.html',names = names)
 
 
 # Genres page
@@ -232,12 +120,13 @@ def admin():
         d = dict(request.form)
         if (d['password'] != 'CodeRed'):
             return render_template("admin.html",post = False)
-        # delete_entry((d['movie']))
         obj = Movie.query.filter_by(movie = d['movie']).one()
         db.session.delete(obj)
         db.session.commit()
         return render_template("admin.html", post = True)
 
+
+# edit a movie
 @app.route('/edit/<id>',methods = ['GET','POST'])
 def edit(id):
     if request.method == "GET":
@@ -247,7 +136,7 @@ def edit(id):
         d = dict(request.form)
         image = request.files.get('image')
         if image:
-            image = resize_image(image.read())
+            image = utils.resize_image(image.read())
             setattr(movie,'image',image)
             db.session.commit()
         else:
@@ -257,6 +146,8 @@ def edit(id):
                     db.session.commit()
         return redirect("/movie/"+str(id))
 
+
+# like a movie
 @app.route('/like/<id>',methods = ['GET'])
 def like(id):
     movie = Movie.query.get(id)
@@ -264,6 +155,8 @@ def like(id):
     db.session.commit()
     return redirect("/movie/"+str(id))
 
+
+# dislike a movie
 @app.route('/dislike/<id>',methods = ['GET'])
 def dislike(id):
     movie = Movie.query.get(id)
@@ -271,42 +164,21 @@ def dislike(id):
     db.session.commit()
     return redirect("/movie/"+str(id))
 
-# @app.route('/api')
-# def api():
-#     movies = db.session.query(Movie).update({Movie.movie_or_series : "movie"})
-#     return "done"
 
-# convert a image to blob and return
-# def to_blob():
-#     with open('D:/Desktop/spider.jpg','rb') as file:
-#         data = file.read()
-#     data = resize_image(data)
-#     return
+# error handling
+@app.errorhandler(404)
+@app.errorhandler(500)
+def not_found(error):
 
+    id = get_random()
+    movie, _ = get_movie_by_id(id)
 
-# to convert any image to our required aspect ratio
-def resize_image(img):
-    img = Image.open(BytesIO(img))
-    img_ratio = img.size[0] / img.size[1]
-    # print(img.size[0],img.size[1])
-    ratio = 3.0/4.0 # Set image ratio here
-    # print(img_ratio,ratio)
-    if ratio > img_ratio:
-        box = (0, (img.size[1] - img.size[0]/ratio) / 2, img.size[0], (img.size[1] + img.size[0]/ratio) / 2)
-        img = img.crop(box)
-        # print("Crop 1")
-    elif ratio < img_ratio:
-        box = ((img.size[0] - img.size[1] * ratio) / 2, 0, ((img.size[0] + img.size[1] * ratio)) / 2, img.size[1])
-        img = img.crop(box)
-        # print("Crop 2")
-    # print(img.size[0],img.size[1])
-    img = img.resize((450,600))
-    # img.show()
-    imgBlob = BytesIO()
-    img.save(imgBlob, format='jpeg')
-    imgBlob = imgBlob.getvalue()
-    # print(sys.getsizeof(imgBlob))
-    return imgBlob
+    if error.code == 404:
+        error_message = "Sorry, We can't find the resource you're looking for"
+    else:
+        error_message = "Sorry, We messed up"
+
+    return render_template('error.html', error = error.code, error_message = error_message, movie = movie), error.code
 
 
 # Database model
@@ -340,11 +212,72 @@ class Movie(db.Model):
         self.genre = movie['genre']
         self.trailer = movie['trailer']
 
-    def __repr__(self):
-        return self.movie + ' was released in ' + str(self.year) + ' imdb : ' + str(self.imdb) + " is a " + self.movie_or_series
+
+# Helper methods
+def get_all_movies():
+    option = request.args.get('op')
+
+    if option == 'all' or option == None:
+        movies = Movie.query.all()
+        movies.sort(key = lambda x : x.movie)
+
+    elif option == "new":
+        movies = Movie.query.all()
+        movies.sort(key = lambda x : x.id, reverse = True)
+
+    elif option == 'movies':
+        movies = Movie.query.filter(Movie.movie_or_series != 'series').all()
+        movies.sort(key = lambda x : x.movie)
+
+    elif option == "sort_by_imdb":
+        movies = Movie.query.all()
+        movies.sort(key = lambda x : x.imdb, reverse = True)
+
+    else:
+        movies = Movie.query.filter_by(movie_or_series = 'series').all()
+        movies.sort(key = lambda x : x.movie)
     
-    # def __lt__(self,other):
-    #     return self.movie < other.movie
+
+    for i in range(len(movies)):
+        movies[i] = encode_image(movies[i])
+
+    return option,movies
+
+def get_movie_by_id(id):
+    movie = Movie.query.get(id)
+    
+    if movie == None:
+        abort(404)
+
+    l = movie.genre.split('/')
+
+    if len(l) == 1:
+        similar = Movie.query.filter(Movie.genre.contains(l[0])).all()
+    else:
+        similar = Movie.query.filter((Movie.genre.contains(l[0])) | (Movie.genre.contains(l[1]))).all()
+
+    similar.remove(movie)
+
+    if len(similar) > 4:
+        similar = sample(similar,4)
+
+    for i in range(len(similar)):
+        similar[i] = encode_image(similar[i])
+
+    movie = encode_image(movie)
+    return movie,similar
+
+def get_random():
+    movies = Movie.query.all()
+    length = len(movies)
+    id = randint(1,length)
+    return id
+
+def encode_image(movie):
+    movie.image = base64.b64encode(movie.image)
+    movie.image = movie.image.decode('utf-8')
+
+    return movie
 
 # def create_db():
 #     db.create_all()
