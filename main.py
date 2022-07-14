@@ -7,6 +7,7 @@ from random import randint, sample
 import base64
 
 import utils
+import json
 
 
 # Defining app
@@ -54,6 +55,50 @@ def genre(genre):
 def random():
     id = get_random()
     return redirect("/movie/" + str(id))
+
+
+# get a random movie through api
+@app.route("/api/random")
+def api_random():
+    movie = get_random_movie()
+
+    return convert_movie_to_json(movie)
+
+@app.route("/api/genre/<genre>")
+def api_random_in_genre(genre):
+    movies = Movie.query.filter(Movie.genre.contains(genre)).all()
+    length = len(movies)
+    id = randint(0 ,length - 1)
+
+    return convert_movie_to_json(movies[id])
+
+# Genres page
+@app.route('/api/genres')
+def api_genres():
+    l = list(db.session.query(Movie.genre).distinct())
+    names = set()
+    for i in l:
+        genres = i[0].split('/')
+        for genre in genres:
+            names.add(genre)
+    return json.dumps(list(names))
+
+def convert_movie_to_json(movie):
+    d = {}
+    d["movie"] = movie.movie
+    d["year"] = movie.year
+    d["imdb"] = movie.imdb
+    d["image"] = encode_image_to_str(movie.image)
+    d["genre"] = movie.genre
+    d["actors"] = movie.actors
+    d["likes"] = movie.likes
+    d["dislikes"] = movie.dislikes
+    d["summary"] = movie.summary
+    d["addedBy"] = movie.addedBy
+    d["movie_or_series"] = movie.movie_or_series
+    d["trailer"] = movie.trailer
+
+    return json.dumps(d)
 
 
 @app.route("/movie/<id>")
@@ -273,11 +318,23 @@ def get_random():
     id = randint(1,length)
     return id
 
+def get_random_movie():
+    movies = Movie.query.all()
+    length = len(movies)
+    id = randint(0 ,length - 1)
+    return movies[id]
+
 def encode_image(movie):
     movie.image = base64.b64encode(movie.image)
     movie.image = movie.image.decode('utf-8')
 
     return movie
+
+def encode_image_to_str(image):
+    image = base64.b64encode(image)
+    image = image.decode('utf-8')
+
+    return image
 
 # def create_db():
 #     db.create_all()
