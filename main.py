@@ -275,7 +275,7 @@ def get_all_movies():
         movies.sort(key = lambda x : x.movie)
 
     elif option == "imdb":
-        movies = Movie.query.filter(Movie.movie_or_series = 'movie').all()
+        movies = Movie.query.filter_by(movie_or_series = 'movie').all()
         movies.sort(key = lambda x : x.imdb, reverse = True)
 
     else:
