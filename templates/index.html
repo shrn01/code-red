@@ -22,9 +22,11 @@
                     <a href = '/?op=movies' class = "btn btn-default">Movies</a>
                     <a href = '/?op=series' class = "btn btn-default">Series</a>
                 </div>
-                <div class = 'btn-group float-right mt-2 mt-md-0'>
-                    <a href = '/?op=all' class = "btn btn-default btn-sm" style = "background-color: rgb(163, 255, 168)">a-z</a>
-                    <a href = '/?op=new' class = "btn btn-default btn-sm">new</a>
+                <div class = 'btn-group float-md-right mt-3 mt-md-0'>
+                    <a class = "btn btn-default btn-sm"><b>Sort By</b></a>
+                    <a href = '/?op=all' class = "btn btn-default btn-sm" style = "background-color: rgb(163, 255, 168)">A-z</a>
+                    <a href = '/?op=new' class = "btn btn-default btn-sm">New</a>
+                    <a href = '/?op=imdb' class = "btn btn-default btn-sm">IMDb</a>
                 </div>
                 {% elif option == 'movies' %}
                 <div class = 'btn-group'>
@@ -44,9 +46,23 @@
                     <a href = '/?op=movies' class = "btn btn-default">Movies</a>
                     <a href = '/?op=series' class = "btn btn-default">Series</a>
                 </div>
-                <div class = 'btn-group float-right mt-2 mt-md-0'>
-                    <a href = '/?op=all' class = "btn btn-default btn-sm">a-z</a>
-                    <a href = '/?op=new' class = "btn btn-default btn-sm" style = "background-color: rgb(245, 255, 158)">new</a>
+                <div class = 'btn-group float-md-right mt-3 mt-md-0'>
+                    <a class = "btn btn-default btn-sm"><b>Sort By</b></a>
+                    <a href = '/?op=all' class = "btn btn-default btn-sm">A-z</a>
+                    <a href = '/?op=new' class = "btn btn-default btn-sm" style = "background-color: rgb(163, 255, 168)">New</a>
+                    <a href = '/?op=imdb' class = "btn btn-default btn-sm">IMDb</a>
+                </div>
+                {% elif option == 'imdb' %}
+                <div class = 'btn-group'>
+                    <a href = '/?op=all' class = "btn btn-default" style = "background-color: #DEF">All <span class="badge badge-light">{{movies | length}}</span></a>
+                    <a href = '/?op=movies' class = "btn btn-default">Movies</a>
+                    <a href = '/?op=series' class = "btn btn-default">Series</a>
+                </div>
+                <div class = 'btn-group float-md-right mt-3 mt-md-0'>
+                    <a class = "btn btn-default btn-sm"><b>Sort By</b></a>
+                    <a href = '/?op=all' class = "btn btn-default btn-sm">A-z</a>
+                    <a href = '/?op=new' class = "btn btn-default btn-sm">New</a>
+                    <a href = '/?op=imdb' class = "btn btn-default btn-sm" style = "background-color: rgb(163, 255, 168)">IMDb</a>
                 </div>
                 {% endif %}
                 

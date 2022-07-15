@@ -29,7 +29,10 @@
                             <a href = "{{ url_for('dislike', id = movie.id) }}" class = "btn" style="background-color: rgb(255, 162, 146);"><i class = "thumb-down"></i> Dislike <span class="badge badge-light">{{movie.dislikes}}</span></a>
                         </p>
                         {% if (movie.likes) %}
-                        <p>{{ (movie.likes)/(movie.likes + movie.dislikes) * 100}}% users loved this {{movie.movie_or_series}}</p>
+                        <!-- <p class="alert alert-danger" role="alert">{{ ((movie.likes)/(movie.likes + movie.dislikes) * 100) | int}}% users loved this {{movie.movie_or_series}}</p> -->
+                        <div class="progress">
+                            <div class="progress-bar" role="progressbar" style="width:{{ ((movie.likes)/(movie.likes + movie.dislikes) * 100) | int}}%" aria-valuenow="15" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
                         {% endif %}
                     </div>
                 </div>

@@ -274,7 +274,7 @@ def get_all_movies():
         movies = Movie.query.filter(Movie.movie_or_series != 'series').all()
         movies.sort(key = lambda x : x.movie)
 
-    elif option == "sort_by_imdb":
+    elif option == "imdb":
         movies = Movie.query.all()
         movies.sort(key = lambda x : x.imdb, reverse = True)
 
@@ -315,8 +315,9 @@ def get_movie_by_id(id):
 def get_random():
     movies = Movie.query.all()
     length = len(movies)
-    id = randint(1,length)
-    return id
+    id = randint(0,length - 1)
+    
+    return movies[id].id
 
 def get_random_movie():
     movies = Movie.query.all()
