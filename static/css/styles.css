@@ -1,0 +1,169 @@
+html {
+  background-color: #000;
+}
+
+body {
+  background-color: rgb(248, 248, 248);
+}
+
+h3 {
+  font-family: monospace;
+}
+
+.selected-option {
+  background-color: #def;
+  border-color: #def;
+}
+
+.like-btn {
+  background-color: rgb(177, 255, 190);
+}
+
+.dislike-btn {
+  background-color: rgb(255, 162, 146);
+}
+
+@media (prefers-color-scheme: dark) {
+  html {
+    background-color: #000000;
+  }
+
+  .header-class {
+    background-color: #202020 !important;
+    color: #cccccc;
+  }
+
+  input[type="text"],
+  textarea {
+    background-color: #323232 !important;
+    border-color: #323232;
+    border: 0px !important;
+  }
+
+  input[type="text"]:focus,
+  textarea:focus {
+    background-color: #323232 !important;
+    border-color: #323232;
+  }
+
+  input[type="file"],
+  textarea {
+    background-color: #323232;
+    border-color: #171717;
+  }
+
+  input[type="file"]:focus,
+  textarea:focus {
+    background-color: #323232;
+    border-color: #171717;
+  }
+
+  .custom-file-label {
+    background-color: #323232;
+    border-color: #171717;
+  }
+
+  .custom-file-label:after {
+    background-color: #454545;
+    color: #cccccc;
+    border-color: #171717;
+  }
+
+  body {
+    background-color: #181818;
+    color: #cccccc;
+  }
+
+  .card {
+    background-color: #303030;
+    color: #cccccc;
+  }
+
+  .btn-secondary {
+    background-color: #292929;
+    border-color: #292929;
+    color: #cccccc;
+  }
+
+  .btn-secondary:hover,
+  .btn-secondary:active {
+    background-color: #161616;
+    border-color: #292929;
+    color: #cccccc;
+  }
+
+  .dropdown-item,
+  .dropdown-menu {
+    background-color: #222222;
+    color: #d0d0d0;
+  }
+
+  .btn-default {
+    background-color: #222222;
+    color: #cccccc;
+  }
+
+  .btn-default:hover {
+    background-color: #171717;
+    color: #cccccc;
+  }
+
+  .btn-success {
+    background-color: #333333;
+    color: #28a745;
+  }
+
+  .btn-success:hover {
+    background-color: #252525;
+    color: #28a745;
+  }
+
+  .btn-dark {
+    background-color: #333333;
+    border-color: #a1a1a1;
+    color: #a1a1a1;
+  }
+
+  .btn-dark:hover {
+    background-color: #252525;
+    border-color: #a1a1a1;
+    color: #a1a1a1;
+  }
+
+  footer {
+    background-color: #202020 !important;
+    color: #cccccc !important;
+  }
+
+  .selected-option {
+    background-color: #333333;
+    border-color: #333333;
+    color: #a1a1a1;
+  }
+
+  .selected-option:hover {
+    background-color: #252525;
+    border-color: #252525;
+    color: #a1a1a1;
+  }
+
+  .like-btn {
+    background-color: #336633;
+    color: #cccccc;
+    border-radius: 5px;
+  }
+
+  .dislike-btn {
+    background-color: #663333;
+    color: #cccccc;
+    border-radius: 5px;
+  }
+
+  .progress {
+    background-color: #464646;
+  }
+
+  .progress-bar {
+    background-color: #505080;
+  }
+}

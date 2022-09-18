@@ -21,11 +21,10 @@
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
-        <!-- 
-            <link rel = "stylesheet" href = "{{ url_for('static',filename = 'css/bootstrap.min.css')}}"> 
-        -->
+        <link rel = "stylesheet" href = "{{ url_for('static', filename = 'css/styles.css')}}"> 
+    
         <div class = "site-content">
-            <div class = "container-fluid bg-dark text-white">
+            <div class = "container-fluid bg-dark text-white header-class">
                 <nav class = "navbar">
                     <div class = 'text-white'>
                         <h3 style = "font-family:sans-serif;" class="mb-1 mt-1"><a href = "{{ url_for('index') }}" class = 'text-white'>Code Red</a></h3>
@@ -49,7 +48,7 @@
                     </div>
                 </nav>
             </div>
-            <div class = "container-fluid p-3">
+            <div class = "container-fluid  p-3 body-color">
                 {% block content %}
                 {% endblock %}
             </div>
@@ -67,59 +66,23 @@
         flex: 1;
       }
     </style>
-    <footer style = "background-color:#1c1c20" class = "text-white p-1 pl-3 pr-3 mt-4">
-        <div class = "row p-3 justify-content-center">
-            <div class = "col-md-6 container pl-md-5 pr-md-5 pt-4">
-                <h3>
-                    About Code Red
-                </h3>
-                <p class = "ml-2 mr-2 mt-3">
-                    Made with <img style = "width: 35px"  src = "{{ url_for('static', filename='images/flask.svg') }}"> and <img style = "width: 35px"  src = "{{ url_for('static', filename='images/postgres.svg') }}"> by <a href = "https://github.com/shrn01">me</a>, <a href = "https://github.com/fivmin">this</a> guy and <a href = "http://linkedin.com/in/dowluri-satya-ashok-7a5016161/">that</a> guy.
-                </p>
-                <p class = "ml-2 mr-2">
-                    If you want to add any movie or series you like which is not in the list, smash that contribute button up there. Cheers!
-                </p>
-                <p class = "ml-2 mr-2">
+    <footer style = "background-color:#1c1c20" class = "text-white p-1 pl-3 pr-3">
+        <div class = "row p-4 justify-content-center">
+            <div class = "col-md-6 container text-center">
+                <span>
                     Find an issue with this page? <a href = "https://github.com/shrn01/code-red">Raise issue</a>
-                </p>
+                </span>
             </div>
-            <div class = "col-md-4 container pr-md-5 pl-md-5 pt-4">
-                <h3>
-                    Quick Links
-                </h3>
-                <p class = "footer-links">
-                    <ul class="list-unstyled pl-2">
-                        <li>
-                            <a class="text-white" href = "{{ url_for('index') }}">Home</a>
-                            
-                        </li>
-                        <li>
-                            <a class="text-white" href = "{{ url_for('random') }}">Random Suggestion</a>
-                            
-                        </li>
-                        <li>
-                            <a class = "text-white" href = "{{ url_for('genres') }}">All Genres</a>
-
-                        </li>
-                        <li>
-                            <a class="text-white" href = "{{ url_for('contribute') }}">Add a Movie/series</a>
-                            
-                        </li>
-                        <li>
-                            <a class="text-white" href = "{{ url_for('contributors') }}">Contributors</a>
-                            
-                        </li>
-                        <li>
-                            <a class="text-white" href = "https://github.com/shrn01/code-red">Github</a>
-                        </li>
-                      </ul>
-                    
-                </p>
-                
+            <div class = "col-md-3 container text-center">
+                <span>
+                    <a class="text-white" href = "{{ url_for('contributors') }}">Contributors</a>
+                </span>
             </div>
-            <div class = "col-md-3 container p-3">
+            <div class = "col-md-3 container text-center">
+                <span>
+                    <a class="text-white" href = "https://github.com/shrn01/code-red">Github</a>
+                </span>
             </div>
-            
         </div>
     </footer>
 </body>

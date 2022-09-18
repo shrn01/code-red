@@ -8,7 +8,7 @@
         <meta name="theme-color" content="#343a40"> 
 
     </head>
-    <body style="background-color: rgb(248, 248, 248);">
+    <body>
         {% extends "template.html" %}
         {% block content %}
         <div class = "container p-0 m-auto">
@@ -25,8 +25,8 @@
                     </div>
                     <div class = "card mt-3 mx-auto pt-3 pb-0 shadow border-0 rounded text-center">
                         <p>
-                            <a href = "{{ url_for('like', id = movie.id) }}" class = "btn" style="background-color:rgb(177, 255, 190);"><i class = "thumb-up"></i> Like <span class="badge badge-light">{{movie.likes}}</span></a>  
-                            <a href = "{{ url_for('dislike', id = movie.id) }}" class = "btn" style="background-color: rgb(255, 162, 146);"><i class = "thumb-down"></i> Dislike <span class="badge badge-light">{{movie.dislikes}}</span></a>
+                            <a href = "{{ url_for('like', id = movie.id) }}" class = "btn like-btn"><i class = "thumb-up"></i> Like <span class="badge badge-light">{{movie.likes}}</span></a>  
+                            <a href = "{{ url_for('dislike', id = movie.id) }}" class = "btn dislike-btn"><i class = "thumb-down"></i> Dislike <span class="badge badge-light">{{movie.dislikes}}</span></a>
                         </p>
                         {% if (movie.likes) %}
                         <!-- <p class="alert alert-danger" role="alert">{{ ((movie.likes)/(movie.likes + movie.dislikes) * 100) | int}}% users loved this {{movie.movie_or_series}}</p> -->
