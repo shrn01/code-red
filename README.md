@@ -21,7 +21,3 @@ Make changes to add features and add a Pull Request on GitHub.
 ## Issues
 
 Find any issues? Add them to the issues tab on github
-
-## Contributors
-
-- [Sharan J](https://github.com/shrn01)
