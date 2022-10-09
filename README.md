@@ -10,6 +10,12 @@ To view the webiste, click [here](https://code-red-25.herokuapp.com/)
 
 ## Local Dev setup
 
+Run in terminal 
+```
+git clone <repo-url>
+
+pip install -r requirements.txt
+```
 Add `DATABASE_URL = sqlite:///local.db` in your environment variables.
 
 Go to project root folder and execute `python3 main.py`.
