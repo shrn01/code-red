@@ -16,8 +16,6 @@ git clone <repo-url>
 
 pip install -r requirements.txt
 ```
-Add `DATABASE_URL = sqlite:///local.db` in your environment variables.
-
 Go to project root folder and execute `python3 main.py`.
 
 Go to `https://localhost:5000/ to see the site
